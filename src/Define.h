@@ -12,18 +12,13 @@ Class for loading pictures.
 const int WINDOW_WIDTH = 1024;
 const int WINDOW_HEIGHT = 768;
 #define TITLE "Space War"
+const int FPS = 60;
 
 
 // Pointers for window and render.
 SDL_Window* window;
 SDL_Renderer* render;
 
-// Initializating function
-/*
-- making the window;
-- making the renderer;
-- initialize the flag for images (PNG);
-*/
 bool Init()
 {
     bool run = true;
@@ -78,32 +73,6 @@ bool Init()
         }
         return run;
 }
-
-// Function for loading the files (ships,backgrounds,planets).
-
-/*
-bool Load()
-{
-    bool run = true;
-
-    if(!Pship1.LoadFile("SpaceWar/data/texture/ship/ship1.png"))
-    {
-        printf("ERROR opening Ship image! \n");
-        run = false;
-    }
-    if(!planet.LoadFile("SpaceWar/data/texture/planet/planet1.png"))
-    {
-        printf("ERROR opening Planet image! \n");
-        run = false;
-    }
-    if(!background.LoadFile("SpaceWar/data/texture/background/Background.png"))
-    {
-        printf("ERROR opening Background image! \n");
-        run = false;
-    }
-    return run;
-}
-*/
 
 // Deleting the pointers.
 void Close()

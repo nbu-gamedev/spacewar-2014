@@ -1,31 +1,30 @@
 #ifndef WORLD_H_INCLUDED
 #define WORLD_H_INCLUDED
 #include "SDL.h"
+#include "Actor.h"
+#include <vector>
+using namespace std;
+
 class World
 {
 public:
     World();
     ~World();
-    void Destroy_texture();
 
-    bool LoadFile(char* destination,SDL_Renderer* render);
+    void Init(SDL_Renderer* render);
 
-    void Visualization(int x,int y,double angle,SDL_RendererFlip Flip_img,SDL_Renderer* render);
+    void DestroyTexture();
 
-    int GetWidth();
+    void WInput(SDL_Event &e);
 
-    int GetHeight();
+    void LoadFile(char* source,SDL_Renderer* render);
 
-    int GetX();
+    void Render(SDL_Renderer* render);
 
-    int GetY();
-
-private:
-    SDL_Texture* Texture;
-    int Width;
-    int Height;
-    int Wx;
-    int Wy;
+    SDL_Texture* m_Texture;
+    int m_WWidth;
+    int m_WHeight;
+    vector<Player*>m_Players;
 };
 
 #endif // WORLD_H_INCLUDED

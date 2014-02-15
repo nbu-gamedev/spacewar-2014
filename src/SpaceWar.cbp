@@ -38,15 +38,14 @@
 			<Add option="-lSDL2_image -lSDL2_ttf" />
 			<Add directory="D:/C++ Game programing/SDL2/lib" />
 		</Linker>
+		<Unit filename="Actor.cpp" />
+		<Unit filename="Actor.h" />
+		<Unit filename="Define.h" />
+		<Unit filename="Projectyle.h" />
+		<Unit filename="Ship.h" />
+		<Unit filename="World.cpp" />
+		<Unit filename="World.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="src/Define.h" />
-		<Unit filename="src/Planet.cpp" />
-		<Unit filename="src/Planet.h" />
-		<Unit filename="src/Projectyle.h" />
-		<Unit filename="src/Ship.cpp" />
-		<Unit filename="src/Ship.h" />
-		<Unit filename="src/World.cpp" />
-		<Unit filename="src/World.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

@@ -4,84 +4,80 @@
 
 World::World()//class World constructor
 {
-    Texture=NULL;
-    Width=0;
-    Height=0;
-};
+}
 
-World::~World()//class World destructor
+World::~World()
 {
-    Destroy_texture();//destroy the texture
-};
-
-void World::Destroy_texture()//Function for destroying the texture
-{
-    if(Texture!=NULL)//check if the texture is empty
+    DestroyTexture();//destroy the texture
+    for(int i = 0;i<m_Players.size();i++)
     {
-        SDL_DestroyTexture(Texture);// clear the old texture
+        delete m_Players[i];
     }
 };
 
-bool World::LoadFile(char* destination,SDL_Renderer* render)
+void World::Init(SDL_Renderer* render)
 {
-    Destroy_texture();
+    m_WWidth = 1024;
+    m_WHeight = 768;
 
-        SDL_Texture* avr_Texture = NULL;//define empty temporary texture
-        SDL_Surface* File = IMG_Load(destination);//open the file of the image
+    LoadFile("media/background2.png",render);
 
-        if(File == NULL)//check if file is open correctly
+    Player* a1 = new Player();
+    a1->Init(0,0,0,"media/planet2.png",render);
+    a1->SetInput("Up","Down","Left","Right","Left Ctrl");
+    m_Players.push_back(a1);
+
+    Player* a2 = new Player();
+    a2->Init(100,0,0,"media/planet2.png",render);
+    a2->SetInput("W","S","A","D","Right Ctrl");
+    m_Players.push_back(a2);
+}
+
+void World::DestroyTexture()
+{
+    if(m_Texture!=NULL)//check if the texture is empty
+    {
+        SDL_DestroyTexture(m_Texture);// clear the old texture
+    }
+};
+
+void World::LoadFile(char* source,SDL_Renderer* render)
+{
+    DestroyTexture();
+    SDL_Surface* File = IMG_Load(source);//open the file of the image
+
+    if(File == NULL)//check if file is open correctly
+    {
+        printf("ERROR opening image : %s , SDL_Eror: %s\n",source,SDL_GetError());
+    }
+    else
+    {
+        m_Texture = SDL_CreateTextureFromSurface(render,File);//
+        if(m_Texture == NULL)//check if the temporary texture is empty
         {
-            printf("ERROR opening image : %s , SDL_Eror: %s\n",destination,SDL_GetError());
+            printf("ERROR Creating Texture from : %s , SDL_Eror: %s\n",source,SDL_GetError());
         }
-        else
-        {
-            avr_Texture = SDL_CreateTextureFromSurface(render,File);//
-            if(avr_Texture == NULL)//check if the temporary texture is empty
-            {
-                printf("ERROR Creating Texture from : %s , SDL_Eror: %s\n",destination,SDL_GetError());
-            }
-            else
-            {
-                Width = File->w;//set value for Width
-                Height = File->h;//set value for Height
-            }
-            SDL_FreeSurface(File);//Clear the pointer to the File
-        }
-        Texture = avr_Texture;//copy the avr_Texture to Texture
-        return Texture!=NULL;//Check if the Texture is empty
-                            //if it is empty return false else return true
+        SDL_FreeSurface(File);//Clear the pointer to the File
+    }
 }
 
-void World::Visualization(int avr_x,int avr_y,double angle,SDL_RendererFlip Flip_img,SDL_Renderer* render)//
+void World::Render(SDL_Renderer* render)
 {
-        Wx = avr_x;
-        Wy = avr_y;
-        SDL_Rect position;
-        position.x = avr_x;
-        position.y = avr_y;
-        position.w = Width;
-        position.h = Height;
-
-        SDL_RenderCopyEx(render,Texture,NULL,&position,angle,NULL,Flip_img);
-        //SDL_RenderCopy(render,Texture,NULL,&position);
+    SDL_Rect position{0,0,1024,768};
+    SDL_RenderCopyEx(render,m_Texture,NULL,&position,0,NULL,SDL_FLIP_NONE);
+    for(int i = 0;i<m_Players.size();i++)
+    {
+        m_Players[i]->Draw(1024,768,1024,768);
+    }
 };
 
-int World::GetWidth()//returns the width of image
+void World::WInput(SDL_Event &e)
 {
-    return Width;
-};
-
-int World::GetHeight()//returns the height of image
-{
-    return Height;
-};
-
-int World::GetX()
-{
-    return Wx;
+    for(int i = 0;i<m_Players.size();i++)
+    {
+        m_Players[i]->Input(e);
+    }
 }
 
-int World::GetY()
-{
-    return Wy;
-}
+
+
