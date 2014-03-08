@@ -9,16 +9,22 @@
 Class for loading pictures.
 */
 // Window options.
-const int WINDOW_WIDTH = 1024;
-const int WINDOW_HEIGHT = 768;
+const int g_WINDOW_WIDTH = 1024;
+const int g_WINDOW_HEIGHT = 768;
 #define TITLE "Space War"
-const int FPS = 60;
+#define g_FPS 60
 
 
 // Pointers for window and render.
-SDL_Window* window;
-SDL_Renderer* render;
+SDL_Window* g_window;
+SDL_Renderer* g_render;
 
+// Initializating function
+/*
+- making the window;
+- making the renderer;
+- initialize the flag for images (PNG);
+*/
 bool Init()
 {
     bool run = true;
@@ -43,8 +49,8 @@ bool Init()
                 run = false;
             }
 
-            window = SDL_CreateWindow(TITLE,SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,WINDOW_WIDTH,WINDOW_HEIGHT,SDL_WINDOW_SHOWN);
-            if(window == NULL)
+            g_window = SDL_CreateWindow(TITLE,SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,g_WINDOW_WIDTH,g_WINDOW_HEIGHT,SDL_WINDOW_SHOWN);
+            if(g_window == NULL)
             {
                 printf("ERROR creting Window : %s\n",SDL_GetError());
                 run = false;
@@ -52,8 +58,8 @@ bool Init()
             else
             {
                 printf("Created Window .\n");
-                render = SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);
-                if(render == NULL)
+                g_render = SDL_CreateRenderer(g_window,-1,SDL_RENDERER_ACCELERATED);
+                if(g_render == NULL)
                 {
                     printf("Failed creating Render : %s\n",SDL_GetError());
                     run = false;
@@ -61,7 +67,7 @@ bool Init()
                 else
                 {
                     printf("Creted Render.\n");
-                    SDL_SetRenderDrawColor( render, 0xFF, 0xFF, 0xFF, 0xFF );
+                    SDL_SetRenderDrawColor( g_render, 0xFF, 0xFF, 0xFF, 0xFF );
                     int picFlag = IMG_INIT_PNG;
                     if(!(IMG_Init(picFlag))& picFlag)
                     {
@@ -77,8 +83,8 @@ bool Init()
 // Deleting the pointers.
 void Close()
 {
-    SDL_DestroyWindow(window);
-    SDL_DestroyRenderer(render);
+    SDL_DestroyWindow(g_window);
+    SDL_DestroyRenderer(g_render);
     IMG_Quit();
     SDL_Quit();
     printf("Successfully Destroyed window and renderer.\n");

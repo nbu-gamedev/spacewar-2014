@@ -23,12 +23,12 @@ void World::Init(SDL_Renderer* render)
     LoadFile("media/background2.png",render);
 
     Player* a1 = new Player();
-    a1->Init(0,0,0,"media/planet2.png",render);
+    a1->Init(0,0,0,"media/dot.png",render);
     a1->SetInput("Up","Down","Left","Right","Left Ctrl");
     m_Players.push_back(a1);
 
     Player* a2 = new Player();
-    a2->Init(100,0,0,"media/planet2.png",render);
+    a2->Init(100,0,0,"media/dot.png",render);
     a2->SetInput("W","S","A","D","Right Ctrl");
     m_Players.push_back(a2);
 }
@@ -79,5 +79,11 @@ void World::WInput(SDL_Event &e)
     }
 }
 
-
+void World::WUpdate()
+{
+     for(int i = 0;i<m_Players.size();i++)
+    {
+        m_Players[i]->Update();
+    }
+}
 

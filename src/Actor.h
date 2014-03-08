@@ -3,16 +3,23 @@
 #include "SDL.h"
 #include"SDL_image.h"
 #include <stdio.h>
-#define PI 3.14159265
+#include <stdlib.h>
+#include "Vector.h"
 
 class Actor
 {
 public:
-    float m_x,m_y;
+    Vector m_cordinates;
+    Vector m_center;
+    Vector m_heading;
+    Vector m_V;
+    Vector m_Acceleration;
+
     float m_width,m_height;
-    float m_Vx,m_Vy;
     float m_angle;
-    float m_radian;
+    float m_r;
+
+
     const Uint8* m_keys;
 
     SDL_Texture* m_Sprite;
@@ -26,22 +33,16 @@ public:
 
     void Draw(int w_Width,int w_Height,int s_Width,int s_Height);
 
-    virtual void Input(SDL_Event &e);
+    virtual void Update() = 0;
+
+    virtual void Input(SDL_Event &e) = 0;
 };
 
-class Player:public Actor
-{
-public:
-    Player(){};
-
-    void SetInput(char* up,char* down,char* left,char* right,char* shoot);
-};
 
 class Passive:public Actor
 {
 public:
     Passive(){};
-
     void Input(SDL_Event &e) = 0;
 };
 

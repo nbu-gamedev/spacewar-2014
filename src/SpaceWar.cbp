@@ -41,8 +41,13 @@
 		<Unit filename="Actor.cpp" />
 		<Unit filename="Actor.h" />
 		<Unit filename="Define.h" />
+		<Unit filename="Player.cpp" />
+		<Unit filename="Player.h" />
+		<Unit filename="Projectyle.cpp" />
 		<Unit filename="Projectyle.h" />
 		<Unit filename="Ship.h" />
+		<Unit filename="Vector.cpp" />
+		<Unit filename="Vector.h" />
 		<Unit filename="World.cpp" />
 		<Unit filename="World.h" />
 		<Unit filename="main.cpp" />

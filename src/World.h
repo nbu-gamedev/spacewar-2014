@@ -1,7 +1,7 @@
 #ifndef WORLD_H_INCLUDED
 #define WORLD_H_INCLUDED
 #include "SDL.h"
-#include "Actor.h"
+#include "Player.h"
 #include <vector>
 using namespace std;
 
@@ -20,6 +20,8 @@ public:
     void LoadFile(char* source,SDL_Renderer* render);
 
     void Render(SDL_Renderer* render);
+
+    void WUpdate();
 
     SDL_Texture* m_Texture;
     int m_WWidth;
