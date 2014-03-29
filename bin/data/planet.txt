@@ -1,7 +1,7 @@
 // version
-file: media/asteroid5.png
-frames x: 5
-frames y:4
-framerate: 80
-loop: loop
+file: media/Planet1.png
+frames x: 10
+frames y:5
+frame duration: 40
+animation type: loop
 //end

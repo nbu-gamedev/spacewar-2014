@@ -12,7 +12,10 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-std=c++0x" />
+					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add option="-std=gnu++0x" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -31,21 +34,24 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
-			<Add directory="D:/C++ Game programing/SDL2/include/SDL2" />
+			<Add directory="D:/SDL2-2.0.1/i686-w64-mingw32/include/SDL2" />
 		</Compiler>
 		<Linker>
 			<Add option="-lmingw32 -lSDL2main -lSDL2" />
 			<Add option="-lSDL2_image -lSDL2_ttf" />
-			<Add directory="D:/C++ Game programing/SDL2/lib" />
+			<Add directory="D:/SDL2-2.0.1/i686-w64-mingw32/lib" />
 		</Linker>
 		<Unit filename="Actor.cpp" />
 		<Unit filename="Actor.h" />
+		<Unit filename="Animation.cpp" />
+		<Unit filename="Animation.h" />
 		<Unit filename="Define.h" />
+		<Unit filename="Passive.cpp" />
+		<Unit filename="Passive.h" />
 		<Unit filename="Player.cpp" />
 		<Unit filename="Player.h" />
 		<Unit filename="Projectyle.cpp" />
 		<Unit filename="Projectyle.h" />
-		<Unit filename="Ship.h" />
 		<Unit filename="Vector.cpp" />
 		<Unit filename="Vector.h" />
 		<Unit filename="World.cpp" />

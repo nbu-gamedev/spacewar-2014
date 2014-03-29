@@ -119,13 +119,6 @@ void Animation::Init(SDL_Renderer* render, string source)
 
 
 
-    cout<<m_source<<endl;
-    cout<<m_frames_x<<endl;
-    cout<<m_frames_y<<endl;
-    cout<<m_frame_duration<<endl;
-    cout<<m_animation_type<<endl;
-
-
     File = IMG_Load(m_source.c_str());
     if(m_Sprite != NULL)
     {

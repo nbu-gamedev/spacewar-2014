@@ -1,50 +1,41 @@
-#include "Define.h"
 #include "World.h"
 #include "Vector.h"
 #include "Projectyle.h"
+#include "Animation.h"
 int main(int argc, char* args[])
 {
-    SDL_Event e;
+    SDL_Event ev;
     World* world = new World();
-    unsigned int t1;
-    //unsigned int t2;
-    unsigned int t3;
-
+    unsigned int time1;
+    unsigned int time2;
     bool game;
-    if(!Init())
+
+    world->Init();
+    game = true;
+    while(game)
     {
-        printf("ERROR Initialization ! \n ");
-    }
-    else
-    {
-        world->Init(g_render);
-        game = true;
-        while(game)
+        time1 = SDL_GetTicks();
+
+        while(SDL_PollEvent(&ev))
         {
-            t1 = SDL_GetTicks();
-            while(SDL_PollEvent(&e))
+            if((ev.type == SDL_QUIT)||ev.key.keysym.sym == SDLK_ESCAPE)
             {
-                if((e.type == SDL_QUIT)||e.key.keysym.sym == SDLK_ESCAPE)
-                {
-                    game = false;
-                    break;
-                }
-                world->WInput(e);
+                game = false;
+                break;
             }
-            world->WUpdate();
+            world->WInput(ev);
+        }
 
-            SDL_RenderClear(g_render);
-            world->Render(g_render);
-            SDL_RenderPresent(g_render);
+        world->WUpdate();
+        world->Render();
 
-            t3 = SDL_GetTicks();
-            if(1000/g_FPS > t3- t1)
-            {
-               SDL_Delay(1000/g_FPS - (t3- t1));
-            }
+        time2 = SDL_GetTicks();
+        if(1000/g_FPS > time2- time1)
+        {
+               SDL_Delay(1000/g_FPS - (time2- time1));
         }
     }
+
     delete world;
-    Close();
     return 0;
 }

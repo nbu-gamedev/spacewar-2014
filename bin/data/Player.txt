@@ -1,0 +1,37 @@
+ m_cordinates.SetXY(x,y);
+    m_V.SetXY(0,0);
+    m_Acceleration.SetXY(1,1);
+
+    m_angle = angle;
+    m_shooting = false;
+
+    m_animate.Init(render,source);
+
+    SDL_Surface* File = IMG_Load(source.c_str());
+
+    if(m_Sprite != NULL){
+        SDL_DestroyTexture(m_Sprite);
+    }
+
+    if(File == NULL)
+    {
+        printf("ERROR opening image : %s , SDL_Eror: %s\n",source.c_str(),SDL_GetError());
+    }
+    else
+    {
+        m_Sprite = SDL_CreateTextureFromSurface(render,File);
+        if(m_Sprite == NULL)
+        {
+            printf("ERROR Creating Texture from : %s , SDL_Eror: %s\n",source.c_str(),SDL_GetError());
+        }
+        else
+        {
+            m_width = File->w;
+            m_height = File->h;
+        }
+        SDL_FreeSurface(File);
+
+        m_r = m_width/2;
+        m_center.SetXY(m_cordinates.m_x + (m_width/2), m_cordinates.m_y + (m_height/2));
+   }
+}
