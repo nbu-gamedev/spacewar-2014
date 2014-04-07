@@ -14,7 +14,7 @@ public:
     Vector m_center;
     Vector m_heading;
 
-    int m_Acceleration;
+    float m_Acceleration;
 
     Vector m_V;
     int m_width,m_height;

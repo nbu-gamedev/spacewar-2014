@@ -12,6 +12,7 @@ int main(int argc, char* args[])
 
     world->Init();
     game = true;
+    bool keydown = true;
 
     while(game)
     {
@@ -26,8 +27,12 @@ int main(int argc, char* args[])
             }
             if(ev.type == SDL_KEYDOWN)
             {
-                world->WInput(ev);
+                keydown = true;
             }
+        }
+        if(keydown)
+        {
+            world->WInput(ev);
         }
         world->Collision();
         world->WUpdate();

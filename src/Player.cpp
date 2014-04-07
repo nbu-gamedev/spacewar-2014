@@ -21,7 +21,7 @@ Player::~Player()
 void Player::Init(float x,float y,float angle,string source,SDL_Renderer* render)
 {
     m_cordinates.SetXY(x,y);
-    m_Acceleration = 1;
+    m_Acceleration = 0.25;
 
     m_V.SetXY(0,0);
     m_angle = angle;
@@ -47,9 +47,6 @@ void Player::SetInput(string up,string down,string left,string right,string shoo
 
 void Player::Input(SDL_Event &e)
 {
-    bool keydown;
-    if(e.type == SDL_KEYDOWN)
-    {
     m_keys = SDL_GetKeyboardState(NULL);
     if(m_keys[m_up])
         {
@@ -68,21 +65,20 @@ void Player::Input(SDL_Event &e)
 
         if(m_keys[m_left])
             {
-                m_angle -= 9.0f;
-                draw_angle -= 9.0f;
+                m_angle -= 3.0f;
+                draw_angle -= 3.0f;
             }
 
         if(m_keys[m_right])
             {
-                m_angle += 9.0f;
-                draw_angle += 9.0f;
+                m_angle += 3.0f;
+                draw_angle += 3.0f;
             }
 
         if(m_keys[m_shoot])
             {
                 m_shooting = true;
             }
-    }
      m_heading.Rotate(m_angle);
 
 }
