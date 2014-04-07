@@ -10,6 +10,8 @@
 #include <fstream>
 #include <list>
 #include "iostream"
+#include <ctime>
+#include <cstdlib>
 using namespace std;
 
 class Animation
@@ -31,6 +33,7 @@ public:
 
     int img_width;
     int img_height;
+    int rand_index;
 
     int m_row_elements;
     int m_column_num;
@@ -43,6 +46,9 @@ public:
     SDL_Surface* File;
     SDL_Texture* m_Sprite;
 
+    typedef void(Animation::*draw_function)(int, int, int, bool, SDL_Renderer*);
+    draw_function draw_animation;
+
     Animation();
     ~Animation();
 
@@ -52,13 +58,15 @@ public:
 
     string Read_Data(string delimiter, string prefix);
     int To_int(string tmp);
-
     string deCaps(string tmp);
+
+
     void LOOP(int x, int y, int angle, bool m_more, SDL_Renderer* render);
-    void Background(int x, int y, int angle, SDL_Renderer* render);
+    void Background(int x, int y, int angle,  bool m_more, SDL_Renderer* render);
     void Linear(int x, int y, int angle, bool m_more, SDL_Renderer* render);
     void Repeat_middle(int x, int y, int angle, bool m_more, SDL_Renderer* render);
     void Return_end(int x, int y, int angle,  bool m_more, SDL_Renderer* render);
+    void Random(int x, int y, int angle, bool m_more, SDL_Renderer* render);
     void Draw(int x, int y, int angle, bool m_more, SDL_Renderer* render);
 
 };

@@ -12,6 +12,7 @@ Animation::Animation(){
     m_currentTime = 0;
     img_height=0;
     img_width=0;
+    rand_index=0;
 
     m_return=false;
 
@@ -62,14 +63,23 @@ int Animation::To_int(string tmp)
 
 string Animation::Read_Data(string delimiter, string prefix)
 {
-    bool more=true;
+   bool more=true;
     string tmp;
     string data;
-    while((more)&&(getline(m_read_file, tmp)))
+    while(((getline(m_read_file, tmp))||(true==more)))
     {
-        repetition_searching_var++;
+
+        if(m_read_file.eof())
+        {
+            more = false;
+            m_read_file.clear();
+            m_read_file.seekg(0, ios_base::beg);
+            getline(m_read_file, tmp);
+        }
+
         data=deCaps(tmp.substr(0, tmp.find(delimiter)));
         prefix=deCaps(prefix);
+
         if(tmp[0]=='/')
         {
 
@@ -80,20 +90,17 @@ string Animation::Read_Data(string delimiter, string prefix)
                 data=tmp.substr((tmp.find(delimiter)+1), tmp.size());
                 data=delSpace(data);
                 tmp="";
-                more=false;
-
+                return data;
             }
     }
-    if(repetition_searching_var>1)
+    if((false==more) && m_read_file.eof())
     {
-        m_read_file.clear();
-        m_read_file.seekg(0, ios_base::beg);
-        repetition_searching_var=0;
+        data = "none";
     }
-    else
-        data="";
+
     return data;
 }
+
 
 void Animation::Init(SDL_Renderer* render, string source)
 {
@@ -116,8 +123,6 @@ void Animation::Init(SDL_Renderer* render, string source)
         m_frame_duration=0;
         m_animation_type="";
     }
-
-
 
     cout<<m_source<<endl;
     cout<<m_frames_x<<endl;
@@ -165,13 +170,50 @@ void Animation::Init(SDL_Renderer* render, string source)
                 List_Frames.push_back(Frames);
             }
         }
+
         it=List_Frames.begin();
         m_startTime=SDL_GetTicks();
+
+        if(m_animation_type=="rand")
+        {
+            srand (time(NULL));
+        }
+
+        if(m_animation_type=="background")
+            {
+                draw_animation=&Animation::Background;
+            }
+            else
+                if(m_animation_type=="loop")
+                {
+                    draw_animation=&Animation::LOOP;
+                }
+                else
+                    if(m_animation_type=="linear")
+                    {
+                        draw_animation=&Animation::Linear;
+                    }
+                    else
+                        if(m_animation_type=="repeat middle")
+                        {
+                            draw_animation=&Animation::Repeat_middle;
+                        }
+                        else
+                            if(m_animation_type=="return from end")
+                            {
+                                draw_animation=&Animation::Return_end;
+                            }
+                            else
+                                if(m_animation_type=="rand")
+                            {
+                                draw_animation=&Animation::Random;
+                            }
+
 }
 
 void Animation::LOOP(int x, int y, int angle, bool m_more, SDL_Renderer* render)
 {
-    SDL_Rect Destination{x, y, m_width/m_frames_x, m_height/m_frames_y};
+    SDL_Rect Destination{x, y, int(m_width/m_frames_x), int(m_height/m_frames_y)};
 
         m_currentTime=SDL_GetTicks();
 
@@ -187,9 +229,9 @@ void Animation::LOOP(int x, int y, int angle, bool m_more, SDL_Renderer* render)
         }
 }
 
-void Animation::Background(int x, int y, int angle,  SDL_Renderer* render)
+void Animation::Background(int x, int y, int angle,  bool m_more, SDL_Renderer* render)
 {
-    SDL_Rect Destination= {x, y, m_width/m_frames_x, m_height/m_frames_y};
+    SDL_Rect Destination= {x, y, int(m_width/m_frames_x), int(m_height/m_frames_y)};
     SDL_RenderCopyEx(render,m_Sprite,&*it,&Destination,angle,NULL,SDL_FLIP_NONE);
 }
 
@@ -199,7 +241,7 @@ void Animation::Linear(int x, int y, int angle,  bool m_more, SDL_Renderer* rend
     if((it!=List_Frames.end())&&(m_more==true))
         {
 
-                    SDL_Rect Destination{x, y, m_width/m_frames_x, m_height/m_frames_y};
+                    SDL_Rect Destination{x, y, int(m_width/m_frames_x), int(m_height/m_frames_y)};
 
                     m_currentTime=SDL_GetTicks();
 
@@ -226,7 +268,7 @@ void Animation::Repeat_middle(int x, int y, int angle, bool m_more, SDL_Renderer
 
 
 
-        SDL_Rect Destination{x, y, m_width/m_frames_x, m_height/m_frames_y};
+        SDL_Rect Destination{x, y, int(m_width/m_frames_x), int(m_height/m_frames_y)};
 
         m_currentTime=SDL_GetTicks();
 
@@ -256,7 +298,7 @@ void Animation::Return_end(int x, int y, int angle, bool m_more, SDL_Renderer* r
 {
     if(m_more==true)
     {
-        SDL_Rect Destination{x, y, m_width/m_frames_x, m_height/m_frames_y};;
+        SDL_Rect Destination{x, y, int(m_width/m_frames_x), int(m_height/m_frames_y)};
 
         m_currentTime=SDL_GetTicks();
 
@@ -292,32 +334,34 @@ void Animation::Return_end(int x, int y, int angle, bool m_more, SDL_Renderer* r
             it == List_Frames.begin();
         }
 }
-void Animation::Draw(int x, int y, int angle, bool m_more, SDL_Renderer* render)
+void Animation::Random(int x, int y, int angle, bool m_more, SDL_Renderer* render)
 {
-    if(m_animation_type=="background")
-    {
-        Background(x, y, angle, render);
-    }
-    else
-        if(m_animation_type=="loop")
+    SDL_Rect Destination{x, y, int(m_width/m_frames_x), int(m_height/m_frames_y)};
+    m_currentTime=SDL_GetTicks();
+
+    rand_index = rand() % int(m_frames_x*m_frames_y);
+
+    SDL_RenderCopyEx(render,m_Sprite,&*it,&Destination,angle,NULL,SDL_FLIP_NONE);
+    if(m_currentTime - m_startTime >= m_frame_duration)
         {
-            LOOP(x, y, angle, m_more, render);
-        }
-        else
-            if(m_animation_type=="linear")
+            it = List_Frames.begin();
+            for(int i=0; i<=rand_index; i++)
             {
-                Linear(x, y, angle, m_more, render);
+                it++;
             }
-            else
-                if(m_animation_type=="repeat middle")
-                {
-                    Repeat_middle(x, y, angle, m_more, render);
-                }
-                else
-                    if(m_animation_type=="return from end")
-                    {
-                        Return_end(x, y, angle, m_more, render);
-                    }
+            if(it == List_Frames.end())
+            {
+                it = List_Frames.begin();
+            }
+
+            m_startTime = m_currentTime;
+        }
+
 
 }
 
+
+void Animation::Draw(int x, int y, int angle, bool m_more, SDL_Renderer* render)
+{
+    this->*(Animation::draw_animation)(x, y, angle, m_more, render);
+}
