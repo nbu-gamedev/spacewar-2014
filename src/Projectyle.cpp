@@ -21,6 +21,18 @@ Projectile::Projectile(){
     m_currentTime = 0;
 }
 
+string Projectile::InitFromFile(string line,string source)
+{
+    string tmp;
+    string parameter;
+    if(line.substr(0,line.find(":")) == source.c_str())
+        {
+            tmp = line.substr(line.find(":")+1,line.size());
+            parameter = tmp.c_str();
+            printf("%s : %s \n",source.c_str(),parameter.c_str());
+            return parameter;
+        }
+}
 void Projectile::ReadFile(string source){
 
     string Line;

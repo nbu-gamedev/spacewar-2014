@@ -13,11 +13,12 @@ public:
     Vector m_cordinates;
     Vector m_center;
     Vector m_heading;
-    Vector m_V;
-    Vector m_Acceleration;
 
+    int m_Acceleration;
+
+    Vector m_V;
     int m_width,m_height;
-    int m_angle;
+    float m_angle;
     int m_r;
 
     const Uint8* m_keys;
@@ -28,8 +29,8 @@ public:
     Actor();
     ~Actor();
 
-    virtual void Update() = 0;
-    virtual void Input(SDL_Event &e) = 0;
+    //virtual void Update() = 0;
+   // virtual void Input(SDL_Event &e) = 0;
 };
 
 

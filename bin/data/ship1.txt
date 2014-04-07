@@ -1,7 +1,7 @@
 //
 file: media/Magenta.png
-frames x:4
-frames y:5
-frame duration: 150
+frames x:5
+frames y:4
+frame duration: 60
 animation type: loop
 //

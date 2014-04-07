@@ -34,8 +34,16 @@ public:
     const Vector operator*(const float scalar);
     const Vector operator/(const float scalar);
 
+    Vector& operator+(const float scalar);
+    Vector& operator-(const float scalar);
+
+    float CollisionAngle(Vector other);
     void Rotate(const float angle);
+    void ChangeAngle(const float angle);
+
     float Length();
+    float DotProduction(Vector other);
+
 };
 
 #endif // VECTOR_H_INCLUDED

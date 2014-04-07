@@ -5,8 +5,8 @@
 #include "SDL_image.h"
 #include "SDL.h"
 
-const int g_WINDOW_WIDTH = 1024;
-const int g_WINDOW_HEIGHT = 768;
+const int g_WINDOW_WIDTH = 1280;
+const int g_WINDOW_HEIGHT = 720;
 #define TITLE "Space War"
 #define g_FPS 60
 

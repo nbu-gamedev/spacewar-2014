@@ -6,7 +6,7 @@ class Passive:public Actor
 {
 public:
     Passive(){};
-    void Input(SDL_Event &e) = 0;
+    //void Input(SDL_Event &e) = 0;
 };
 
 #endif // PASSIVE_H_INCLUDED

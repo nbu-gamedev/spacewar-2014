@@ -4,6 +4,7 @@
 #include "SDL.h"
 #include "Player.h"
 #include <vector>
+#include"Actor.h"
 #include "Animation.h"
 #include "Define.h"
 #include "string"
@@ -34,10 +35,16 @@ public:
     SDL_Renderer* m_render;
     SDL_Window* m_window;
 
+    // Test for Collision
+    bool CheckCollision(Actor *A,Actor *B);
+    double Distance(Actor *A,Actor *B);
+    void Collision();
+    //
     int m_WWidth;
     int m_WHeight;
     vector<Player*>m_Players;
     Animation *Planet;
+    Animation *Background;
 };
 
 #endif // WORLD_H_INCLUDED

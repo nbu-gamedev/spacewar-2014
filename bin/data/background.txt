@@ -1,0 +1,7 @@
+// version
+file: media/background_HD.png
+frames x: 1
+frames y:1
+frame duration: 1
+animation type: loop
+//end

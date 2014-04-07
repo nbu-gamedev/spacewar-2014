@@ -5,6 +5,7 @@
 #include "Projectyle.h"
 #include <list>
 #include <vector>
+
 using namespace std;
 
 
@@ -14,6 +15,7 @@ public:
     bool m_shooting;
     vector<Projectile*> m_Projectiles;
     Animation m_animate;
+    int draw_angle;
 
     Player();
     ~Player();
@@ -23,6 +25,13 @@ public:
     void Update();
     void AddProjectile(SDL_Renderer* render);
     void Draw(SDL_Renderer* render);
+    // Test Collision
+    void WallCollision(int width,int height);
+    void PlayerCollision(Actor *A);
+    void PlanetCollision();
+    void CalcolateCollision(Vector other);
+    //
+
 
 };
 

@@ -3,9 +3,10 @@
 Player::Player(){
     m_width = 0;
     m_height = 0;
-    m_angle = 0;
+    m_angle = 0.0f;
     m_r = 0;
     m_shooting = 0;
+    draw_angle = 0;
 
     m_Sprite = NULL;
     m_keys = NULL;
@@ -20,9 +21,9 @@ Player::~Player()
 void Player::Init(float x,float y,float angle,string source,SDL_Renderer* render)
 {
     m_cordinates.SetXY(x,y);
-    m_V.SetXY(0,0);
-    m_Acceleration.SetXY(1,1);
+    m_Acceleration = 1;
 
+    m_V.SetXY(0,0);
     m_angle = angle;
     m_shooting = false;
 
@@ -46,45 +47,44 @@ void Player::SetInput(string up,string down,string left,string right,string shoo
 
 void Player::Input(SDL_Event &e)
 {
+    bool keydown;
     if(e.type == SDL_KEYDOWN)
-     {
-        m_keys = SDL_GetKeyboardState(NULL);
-        if(m_keys[m_up])
+    {
+    m_keys = SDL_GetKeyboardState(NULL);
+    if(m_keys[m_up])
+        {
+            if(m_V.m_x < 8)
             {
-                if(m_V.m_x < 8)
-                {
-                    m_V += m_Acceleration;
-                }
+                m_V = m_V + m_Acceleration;
             }
+        }
+
         if(m_keys[m_down])
             {
                 if(m_V.m_x > -8){
-                    m_V -= m_Acceleration;
+                    m_V = m_V- m_Acceleration;
                 }
             }
+
         if(m_keys[m_left])
             {
-                m_angle -= 9;
+                m_angle -= 9.0f;
+                draw_angle -= 9.0f;
             }
+
         if(m_keys[m_right])
             {
-                m_angle += 9;
+                m_angle += 9.0f;
+                draw_angle += 9.0f;
             }
+
         if(m_keys[m_shoot])
             {
                 m_shooting = true;
             }
-     }
-     else if(e.type == SDL_KEYUP){
-        m_keys = SDL_GetKeyboardState(NULL);
-
-        if(m_keys[m_shoot])
-        {
-            m_shooting = false;
-            printf("NOT Pressed shoot button. \n");
-        }
-     }
+    }
      m_heading.Rotate(m_angle);
+
 }
 
 void Player::Update()
@@ -114,7 +114,7 @@ void Player::AddProjectile(SDL_Renderer* render)
 
 void Player::Draw(SDL_Renderer* render)
 {
-    m_animate.Draw(m_cordinates.m_x, m_cordinates.m_y,m_angle,true,render);
+    m_animate.Draw(m_cordinates.m_x, m_cordinates.m_y,draw_angle,true,render);
     if(m_shooting)
     {
         AddProjectile(render);
@@ -125,3 +125,46 @@ void Player::Draw(SDL_Renderer* render)
         m_Projectiles[i]->Draw(render);
     }
 }
+
+void Player::WallCollision(int width,int height){
+    Vector Normal;
+    Normal.SetXY(0,0);
+
+    if(m_cordinates.m_x + m_width >= width){
+        Normal.SetXY(-1,0);
+        CalcolateCollision(Normal);
+    }
+    else
+    if(m_cordinates.m_x <= 0){
+        Normal.SetXY(1.0f,0.0f);
+        CalcolateCollision(Normal);
+    }
+    else
+    if(m_cordinates.m_y + m_height >= height){
+        Normal.SetXY(0.0f,-1.0f);
+        CalcolateCollision(Normal);
+    }
+    else
+    if(m_cordinates.m_y <= 0){
+        Normal.SetXY(0.0f,1.0f);
+        CalcolateCollision(Normal);
+    }
+}
+
+void Player::CalcolateCollision(Vector other)
+{
+    printf("I -Heading[x]=%f [y]=%f [Angle]=%f Vel[x]=%f [y]=%f\n",m_heading.m_x,m_heading.m_y,m_angle,m_V.m_x,m_V.m_y);
+
+    float Dot = (m_heading.DotProduction(other))*2;
+    m_heading = (m_heading-(other*Dot))/other.Length();
+    m_angle = m_heading.CollisionAngle(other);
+    m_heading.Rotate(m_angle);
+    draw_angle = 90 + m_angle;
+
+    printf("II -Heading[x]=%f [y]=%f [Angle]=%f Vel[x]=%f [y]=%f Dot=%f\n",m_heading.m_x,m_heading.m_y,m_angle,m_V.m_x,m_V.m_y,Dot);
+}
+
+
+
+
+

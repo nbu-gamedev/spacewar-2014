@@ -1,9 +1,9 @@
 // NewKnight Test1
-Speed:5.0
+Speed:9.0
 Number_Projectyles : 100
 Lifetime:1900.0
-Damage:20
+Damage:20.0
 Key:Left Ctrl
-Cooldown:3000.0
+Cooldown:3000
 Version:0.001
 //SpaceWar 2014

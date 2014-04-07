@@ -87,10 +87,31 @@ const Vector Vector::operator/(const float scalar){
     return Vector(*this) /= scalar;
 }
 
+Vector& Vector::operator+(const float scalar)
+{
+    m_x += scalar;
+    m_y += scalar;
+    return *this;
+}
+
+Vector& Vector::operator-(const float scalar)
+{
+    m_x -= scalar;
+    m_y -= scalar;
+    return *this;
+}
 
 void Vector::Rotate(const float angle){
     float x = cos(angle*PI/180);
     float y = sin(angle*PI/180);
+
+    m_x = x;
+    m_y = y;
+}
+
+void Vector::ChangeAngle(const float angle){
+    float x = acos(angle*PI/180);
+    float y = asin(angle*PI/180);
 
     m_x = x;
     m_y = y;
@@ -101,5 +122,26 @@ float Vector::Length(){
     length = sqrt((m_x*m_x) + (m_y*m_y));
     return length;
 }
+
+float Vector::DotProduction(Vector other)
+{
+    return (m_x * other.m_x) + (m_y * other.m_y);
+}
+
+float Vector::CollisionAngle (Vector other)
+{
+   /* if(other.m_x == 1.0f || other.m_x == -1.0f)
+    {
+        return asin(m_y)*180/PI;
+    }
+    else
+    if(other.m_y == 1.0f || other.m_y == -1.0f)
+    {
+       return acos(m_x)*180/PI;
+    }
+    */
+    return atan2(m_x,m_y)*180/PI;
+}
+
 
 

@@ -1,5 +1,5 @@
 // version
-file: media/Planet1.png
+file: media/planet_sheet.png
 frames x: 10
 frames y:5
 frame duration: 40

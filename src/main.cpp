@@ -12,6 +12,7 @@ int main(int argc, char* args[])
 
     world->Init();
     game = true;
+
     while(game)
     {
         time1 = SDL_GetTicks();
@@ -23,9 +24,12 @@ int main(int argc, char* args[])
                 game = false;
                 break;
             }
-            world->WInput(ev);
+            if(ev.type == SDL_KEYDOWN)
+            {
+                world->WInput(ev);
+            }
         }
-
+        world->Collision();
         world->WUpdate();
         world->Render();
 

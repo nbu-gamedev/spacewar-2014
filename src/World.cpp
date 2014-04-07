@@ -32,6 +32,7 @@ bool World::InitScreen()
             }
 
             m_window = SDL_CreateWindow(TITLE,SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,g_WINDOW_WIDTH,g_WINDOW_HEIGHT,SDL_WINDOW_SHOWN);
+
             if(m_window == NULL)
             {
                 printf("ERROR creting Window : %s\n",SDL_GetError());
@@ -40,7 +41,9 @@ bool World::InitScreen()
             else
             {
                 printf("Created Window .\n");
-                m_render = SDL_CreateRenderer(m_window,-1,SDL_RENDERER_ACCELERATED);
+
+                m_render = SDL_CreateRenderer(m_window,-1,SDL_RENDERER_TARGETTEXTURE);
+
                 if(m_render == NULL)
                 {
                     printf("Failed creating Render : %s\n",SDL_GetError());
@@ -57,6 +60,15 @@ bool World::InitScreen()
                         printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
                         run = false;
                     }
+                    else
+                    {
+                        if(!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"))
+                        {
+                            printf("Warning: Scale Quality not enabled!\n");
+                            run = false;
+                        }
+                    }
+
                 }
             }
         }
@@ -84,17 +96,20 @@ void World::Init()
         m_WHeight = g_WINDOW_HEIGHT;
 
         Player* a1 = new Player();
-        a1->Init(0,100,0,"data/ship1.txt",m_render);
+        a1->Init(10,100,-90,"data/ship1.txt",m_render);
         a1->SetInput("Up","Down","Left","Right","Right Ctrl");
         m_Players.push_back(a1);
 
         Player* a2 = new Player();
-        a2->Init(0,200,0,"data/ship2.txt",m_render);
+        a2->Init(10,200,-90,"data/ship2.txt",m_render);
         a2->SetInput("W","S","A","D","Left Ctrl");
         m_Players.push_back(a2);
 
         Planet = new Animation();
         Planet->Init(m_render,"data/planet.txt");
+
+        Background = new Animation();
+        Background->Init(m_render,"data/background.txt");
     }
     else{
         printf("ERROR with INIT SCREEN !\n");
@@ -134,13 +149,14 @@ void World::LoadFile(string source)
 void World::Render()
 {
     SDL_RenderClear(m_render);
+    Background->Draw(0,0,0,true,m_render);
 
     for(unsigned int i = 0;i<m_Players.size();i++)
     {
         m_Players[i]->Draw(m_render);
     }
 
-    Planet->Draw( (1024/2)-(Planet->img_width/2), (768/2)-(Planet->img_width/2), 0, true,m_render);
+    Planet->Draw( (m_WWidth/2)-(Planet->img_width/2), (m_WHeight/2)-(Planet->img_width/2), 0, true,m_render);
 
     SDL_RenderPresent(m_render);
 }
@@ -160,4 +176,30 @@ void World::WUpdate()
         m_Players[i]->Update();
     }
 }
+
+double World::Distance(Actor *A,Actor *B){
+    return sqrt((B->m_cordinates.m_x-A->m_cordinates.m_x)*(B->m_cordinates.m_x-A->m_cordinates.m_x)+
+    (B->m_cordinates.m_y-A->m_cordinates.m_y)*(B->m_cordinates.m_y-A->m_cordinates.m_y));
+}
+
+ bool World::CheckCollision(Actor *A,Actor *B){
+        if(Distance(A,B)<(A->m_r + B->m_r)){
+        return true;
+        }
+
+        return false;
+ }
+
+ void World::Collision(){
+     for(unsigned int i = 0;i < m_Players.size();i++){
+        m_Players[i]->WallCollision(m_WWidth,m_WHeight);
+     }
+
+     if(CheckCollision(m_Players[0],m_Players[1])){
+        printf("COLLISION!!!\n");
+     }
+ }
+
+
+
 

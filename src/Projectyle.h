@@ -12,7 +12,7 @@ class Projectile:public Actor
 public:
     bool m_live;
     float m_lifetime;
-    int m_speed;
+    float m_speed;
     float m_cooldown;
     float m_damage;
     const char* m_keyshoot;
@@ -26,6 +26,7 @@ public:
 
     void Init(string source,SDL_Renderer* render,Vector heading,Vector cordinates);
     void ReadFile(string source);
+    string InitFromFile(string line,string source);
 
     void Input(SDL_Event &e){};
     void Update();
