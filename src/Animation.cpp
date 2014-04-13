@@ -4,15 +4,26 @@ Animation::Animation(){
     m_width = 0;
     m_height = 0;
     m_source = "";
+    m_flip="";
     m_frames_x = 0;
     m_frames_y = 0;
+    m_position=0;
     m_frame_duration = 0;
     m_animation_type = "";
     m_startTime = 0;
     m_currentTime = 0;
+
     img_height=0;
     img_width=0;
     rand_index=0;
+    percentage_height=0;
+    prev_percentage=0;
+
+    vector_index=0;
+
+    m_repeat_from_index=0;
+
+    flip = SDL_FLIP_NONE;
 
     m_return=false;
 
@@ -41,10 +52,10 @@ string Animation::deCaps(string tmp)
 {
     for(unsigned int i=0; i<tmp.length(); i++)
     {
-        if((tmp[i]>='A')&&(tmp[i]<='Z'))
-        {
+        //if((tmp[i]>='A')&&(tmp[i]<='Z'))
+        //{
             tmp[i]=(tolower(tmp[i]));
-        }
+        //}
     }
     return tmp;
 }
@@ -112,7 +123,17 @@ void Animation::Init(SDL_Renderer* render, string source)
         m_frames_x = To_int(Read_Data(delimiter, "frames x"));
         m_frames_y = To_int(Read_Data(delimiter, "frames y"));
         m_frame_duration = To_int(Read_Data(delimiter, "frame duration"));
+        //m_repeat_from_index = To_int(Read_Data(delimiter, "framerestart"));
         m_animation_type = Read_Data(delimiter, "animation type");
+        m_flip=Read_Data(delimiter, "flip");
+        if((m_animation_type=="hpship")||(m_animation_type=="hpbarbody"))
+        {
+            m_position=To_int(Read_Data(delimiter, "position"));
+        }
+        else
+            {
+                m_position=0;
+            }
         m_read_file.close();
     }
     else
@@ -122,6 +143,7 @@ void Animation::Init(SDL_Renderer* render, string source)
         m_frames_y=1;
         m_frame_duration=0;
         m_animation_type="";
+        m_flip="none";
     }
 
     cout<<m_source<<endl;
@@ -129,6 +151,7 @@ void Animation::Init(SDL_Renderer* render, string source)
     cout<<m_frames_y<<endl;
     cout<<m_frame_duration<<endl;
     cout<<m_animation_type<<endl;
+    cout<<m_flip<<endl;
 
 
     File = IMG_Load(m_source.c_str());
@@ -157,57 +180,44 @@ void Animation::Init(SDL_Renderer* render, string source)
         SDL_Rect Frames;
         Frames.x=0;
         Frames.y=0;
-        Frames.w=m_width/m_frames_x;
-        Frames.h=m_height/m_frames_y;
+        Frames.w=(m_width/m_frames_x);
+        Frames.h=(m_height/m_frames_y);
 
         img_width=m_width/m_frames_x;
         img_height=m_height/m_frames_y;
+        percentage_height=Frames.h;
+        prev_percentage=100;
 
         for(Frames.y =0; Frames.y<m_height; Frames.y=Frames.y+m_height/m_frames_y)
         {
             for(Frames.x=0; Frames.x<m_width; Frames.x=Frames.x+m_width/m_frames_x)
             {
-                List_Frames.push_back(Frames);
+                Vector_Frames.push_back(Frames);
             }
         }
 
-        it=List_Frames.begin();
+        vector_index=0;
         m_startTime=SDL_GetTicks();
 
         if(m_animation_type=="rand")
         {
             srand (time(NULL));
         }
+        if("horizontal"==m_flip)
+        {
+            flip=SDL_FLIP_HORIZONTAL;
+        }
+        else
+            if("vertical"==m_flip)
+        {
+            flip=SDL_FLIP_VERTICAL;
+        }
+        else
+            if(m_flip=="none")
+        {
+            flip=SDL_FLIP_NONE;
+        }
 
-        if(m_animation_type=="background")
-            {
-                draw_animation=&Animation::Background;
-            }
-            else
-                if(m_animation_type=="loop")
-                {
-                    draw_animation=&Animation::LOOP;
-                }
-                else
-                    if(m_animation_type=="linear")
-                    {
-                        draw_animation=&Animation::Linear;
-                    }
-                    else
-                        if(m_animation_type=="repeat middle")
-                        {
-                            draw_animation=&Animation::Repeat_middle;
-                        }
-                        else
-                            if(m_animation_type=="return from end")
-                            {
-                                draw_animation=&Animation::Return_end;
-                            }
-                            else
-                                if(m_animation_type=="rand")
-                            {
-                                draw_animation=&Animation::Random;
-                            }
 
 }
 
@@ -217,13 +227,13 @@ void Animation::LOOP(int x, int y, int angle, bool m_more, SDL_Renderer* render)
 
         m_currentTime=SDL_GetTicks();
 
-        SDL_RenderCopyEx(render,m_Sprite,&*it,&Destination,angle,NULL,SDL_FLIP_NONE);
+        SDL_RenderCopyEx(render,m_Sprite,&Vector_Frames[vector_index],&Destination,angle,NULL,SDL_FLIP_NONE);
         if(m_currentTime - m_startTime >= m_frame_duration)
         {
-            it++;
-                if(it == List_Frames.end())
+            vector_index++;
+                if(unsigned(vector_index) == Vector_Frames.size())
                 {
-                    it = List_Frames.begin();
+                    vector_index=0;
                 }
                 m_startTime = m_currentTime;
         }
@@ -232,23 +242,23 @@ void Animation::LOOP(int x, int y, int angle, bool m_more, SDL_Renderer* render)
 void Animation::Background(int x, int y, int angle,  bool m_more, SDL_Renderer* render)
 {
     SDL_Rect Destination= {x, y, int(m_width/m_frames_x), int(m_height/m_frames_y)};
-    SDL_RenderCopyEx(render,m_Sprite,&*it,&Destination,angle,NULL,SDL_FLIP_NONE);
+    SDL_RenderCopyEx(render,m_Sprite,&Vector_Frames[vector_index],&Destination,angle,NULL,SDL_FLIP_NONE);
 }
 
 void Animation::Linear(int x, int y, int angle,  bool m_more, SDL_Renderer* render)
 {
 
-    if((it!=List_Frames.end())&&(m_more==true))
+    if((unsigned(vector_index)!=Vector_Frames.size())&&(m_more==true))
         {
 
                     SDL_Rect Destination{x, y, int(m_width/m_frames_x), int(m_height/m_frames_y)};
 
                     m_currentTime=SDL_GetTicks();
 
-                    SDL_RenderCopyEx(render,m_Sprite,&*it,&Destination,angle,NULL,SDL_FLIP_NONE);
+                    SDL_RenderCopyEx(render,m_Sprite,&Vector_Frames[vector_index],&Destination,angle,NULL,SDL_FLIP_NONE);
                     if(m_currentTime - m_startTime >= m_frame_duration)
                     {
-                        it++;
+                        vector_index++;
                         m_startTime = m_currentTime;
 
                     }
@@ -256,7 +266,7 @@ void Animation::Linear(int x, int y, int angle,  bool m_more, SDL_Renderer* rend
         else
             if(m_more==false)
             {
-                it = List_Frames.begin();
+                vector_index=0;
             }
 
 }
@@ -272,18 +282,15 @@ void Animation::Repeat_middle(int x, int y, int angle, bool m_more, SDL_Renderer
 
         m_currentTime=SDL_GetTicks();
 
-        SDL_RenderCopyEx(render,m_Sprite,&*it,&Destination,angle,NULL,SDL_FLIP_NONE);
+        SDL_RenderCopyEx(render,m_Sprite,&Vector_Frames[vector_index],&Destination,angle,NULL,SDL_FLIP_NONE);
         if(m_currentTime - m_startTime >= m_frame_duration)
             {
-                if(it==List_Frames.end())
+                if(unsigned(vector_index)==Vector_Frames.size())
                 {
-                    it=List_Frames.begin();
-                    for(unsigned int i=0; i<(List_Frames.size())/2; i++)
-                    {
-                        it++;
-                    }
+                    vector_index=m_repeat_from_index;
+
                 }
-                it++;
+                vector_index++;
                 m_startTime = m_currentTime;
 
             }
@@ -291,7 +298,7 @@ void Animation::Repeat_middle(int x, int y, int angle, bool m_more, SDL_Renderer
     else
         if(m_more==false)
         {
-            it=List_Frames.begin();
+            vector_index=0;
         }
 }
 void Animation::Return_end(int x, int y, int angle, bool m_more, SDL_Renderer* render)
@@ -302,26 +309,26 @@ void Animation::Return_end(int x, int y, int angle, bool m_more, SDL_Renderer* r
 
         m_currentTime=SDL_GetTicks();
 
-        SDL_RenderCopyEx(render,m_Sprite,&*it,&Destination,angle,NULL,SDL_FLIP_NONE);
+        SDL_RenderCopyEx(render,m_Sprite,&Vector_Frames[vector_index],&Destination,angle,NULL,SDL_FLIP_NONE);
         if(m_currentTime - m_startTime >= m_frame_duration)
         {
             if(m_return==false)
             {
-                it++;
+                vector_index++;
             }
             else
                 if(m_return==true)
                 {
-                    it--;
+                    vector_index--;
                 }
 
-            if(it == List_Frames.end())
+            if(unsigned(vector_index) == Vector_Frames.size())
             {
-                it--;
+                vector_index--;
                 m_return=true;
             }
             else
-                if(it == List_Frames.begin())
+                if(vector_index == 0)
                 {
                     m_return=false;
                 }
@@ -331,7 +338,7 @@ void Animation::Return_end(int x, int y, int angle, bool m_more, SDL_Renderer* r
     else
         if(m_more==false)
         {
-            it == List_Frames.begin();
+            vector_index = 0;
         }
 }
 void Animation::Random(int x, int y, int angle, bool m_more, SDL_Renderer* render)
@@ -339,29 +346,72 @@ void Animation::Random(int x, int y, int angle, bool m_more, SDL_Renderer* rende
     SDL_Rect Destination{x, y, int(m_width/m_frames_x), int(m_height/m_frames_y)};
     m_currentTime=SDL_GetTicks();
 
-    rand_index = rand() % int(m_frames_x*m_frames_y);
 
-    SDL_RenderCopyEx(render,m_Sprite,&*it,&Destination,angle,NULL,SDL_FLIP_NONE);
+    SDL_RenderCopyEx(render,m_Sprite,&Vector_Frames[vector_index],&Destination,angle,NULL,SDL_FLIP_NONE);
     if(m_currentTime - m_startTime >= m_frame_duration)
         {
-            it = List_Frames.begin();
-            for(int i=0; i<=rand_index; i++)
-            {
-                it++;
-            }
-            if(it == List_Frames.end())
-            {
-                it = List_Frames.begin();
-            }
+            vector_index=rand_index;
 
-            m_startTime = m_currentTime;
+            m_startTime = rand() % int(m_frames_x*m_frames_y);
         }
 
 
 }
 
 
+void Animation::HP_Bar_body(int x, int y, int angle, bool m_more, SDL_Renderer* render)
+{
+    SDL_Rect Destination{x, y, int(m_width/m_frames_x), int(m_height/m_frames_y)};
+    SDL_RenderCopyEx(render,m_Sprite,&Vector_Frames[m_position],&Destination,angle,NULL,flip);
+}
+void Animation::HP_Bar(int x, int y, int angle,  int percentage,bool m_more, SDL_Renderer* render)
+{
+    if(prev_percentage!=percentage)
+    {
+        prev_percentage=percentage;
+        percentage_height=int(((percentage_height)*percentage)/100);
+        Vector_Frames[m_position].h=percentage_height;
+    }
+
+    SDL_Rect Destination2{x, y, int(m_width/m_frames_x), int(percentage_height)};
+    SDL_RenderCopyEx(render,m_Sprite,&Vector_Frames[m_position],&Destination2,angle,NULL,flip);
+}
+
+
 void Animation::Draw(int x, int y, int angle, bool m_more, SDL_Renderer* render)
 {
-    this->*(Animation::draw_animation)(x, y, angle, m_more, render);
+    if(m_animation_type=="background")
+    {
+        Background(x, y, angle, m_more,render);
+    }
+    else
+        if(m_animation_type=="loop")
+        {
+            LOOP(x, y, angle, m_more, render);
+        }
+        else
+            if(m_animation_type=="linear")
+            {
+                Linear(x, y, angle, m_more, render);
+            }
+            else
+                if(m_animation_type=="repeat middle")
+                {
+                    Repeat_middle(x, y, angle, m_more, render);
+                }
+                else
+                    if(m_animation_type=="return from end")
+                    {
+                        Return_end(x, y, angle, m_more, render);
+                    }
+                    else
+                    if(m_animation_type=="random")
+                    {
+                        Random(x, y, angle, m_more, render);
+                    }
+                    else
+                        if(m_animation_type=="hpbarbody")
+                        {
+                            HP_Bar_body(x, y, angle, m_more, render);
+                        }
 }

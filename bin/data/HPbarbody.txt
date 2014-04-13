@@ -1,0 +1,10 @@
+// version
+file: media/HP_bar.png
+frames x: 3
+frames y:1
+frame duration: 0
+flip:horizontal
+animation type: hpbarbody
+flip:none
+position: 2
+//end

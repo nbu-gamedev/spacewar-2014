@@ -1,11 +1,11 @@
 #ifndef WORLD_H_INCLUDED
 #define WORLD_H_INCLUDED
-
 #include "SDL.h"
 #include "Player.h"
 #include <vector>
 #include"Actor.h"
 #include "Animation.h"
+#include "Passive.h"
 #include "Define.h"
 #include "string"
 
@@ -23,7 +23,7 @@ public:
 
     void DestroyTexture();
 
-    void WInput(SDL_Event &e);
+    void WInput(bool key);
 
     void LoadFile(string source);
 
@@ -40,11 +40,14 @@ public:
     double Distance(Actor *A,Actor *B);
     void Collision();
     //
+    void ReadFile(string source);
+    vector<string>m_projectile_src;
     int m_WWidth;
     int m_WHeight;
     vector<Player*>m_Players;
     Animation *Planet;
     Animation *Background;
+    vector<Passive*> hp_bar;
 };
 
 #endif // WORLD_H_INCLUDED

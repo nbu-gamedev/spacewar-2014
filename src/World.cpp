@@ -95,13 +95,15 @@ void World::Init()
         m_WWidth = g_WINDOW_WIDTH;
         m_WHeight = g_WINDOW_HEIGHT;
 
+        ReadFile("data/Projectile_Setup.txt");
+
         Player* a1 = new Player();
-        a1->Init(10,100,-90,"data/ship1.txt",m_render);
+        a1->Init(10,100,-90,"data/ship_1.txt",m_projectile_src[1],m_render);
         a1->SetInput("Up","Down","Left","Right","Right Ctrl");
         m_Players.push_back(a1);
 
         Player* a2 = new Player();
-        a2->Init(10,200,-90,"data/ship2.txt",m_render);
+        a2->Init(10,200,-90,"data/ship_2.txt",m_projectile_src[2],m_render);
         a2->SetInput("W","S","A","D","Left Ctrl");
         m_Players.push_back(a2);
 
@@ -110,12 +112,33 @@ void World::Init()
 
         Background = new Animation();
         Background->Init(m_render,"data/background.txt");
+
+
+    Passive *bar=new Passive();
+    bar->Init(m_render, "data/HPbarbody.txt","data/HPbarship1.txt", 0, 10);
+    hp_bar.push_back(bar);
+    Passive *bar2=new Passive();
+    bar2->Init(m_render, "data/HPbarbody2.txt","data/HPbarship2.txt", 1240, 10);
+    hp_bar.push_back(bar2);
+
     }
     else{
         printf("ERROR with INIT SCREEN !\n");
     }
+}
 
+void World::ReadFile(string source)
+{
+    string Line;
+    ifstream File;
+    File.open(source.c_str());
 
+    while(!File.eof())
+    {
+        getline(File,Line);
+        m_projectile_src.push_back(Line);
+    }
+    File.close();
 }
 
 void World::DestroyTexture()
@@ -157,15 +180,20 @@ void World::Render()
     }
 
     Planet->Draw( (m_WWidth/2)-(Planet->img_width/2), (m_WHeight/2)-(Planet->img_width/2), 0, true,m_render);
+    for(unsigned int i=0; i<hp_bar.size(); i++){
+    hp_bar[i]->Draw(90, m_render);
+
+    }
 
     SDL_RenderPresent(m_render);
 }
 
-void World::WInput(SDL_Event &e)
+void World::WInput(bool key)
 {
     for(unsigned int i = 0;i<m_Players.size();i++)
     {
-        m_Players[i]->Input(e);
+        m_Players[i]->Input(key);
+
     }
 }
 
