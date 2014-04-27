@@ -1,8 +1,8 @@
 // version
 file: media/Planet.png
 frames x: 10
-frames y:5
-frame duration: 40
+frames y:10
+frame duration: 30
 animation type: loop
 flip:none
 width:160

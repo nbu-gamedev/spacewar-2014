@@ -210,6 +210,7 @@ void Animation::Init(SDL_Renderer* render, string source)
 
         m_prev_percentage=100;
         m_vector_index=0;
+        m_prev_vector_index=0;
         m_startTime=SDL_GetTicks();
 
         for(Frames.y =0; Frames.y<m_height; Frames.y=Frames.y+m_height/m_frames_y)
@@ -325,11 +326,7 @@ void Animation::Return_end(int x, int y, int angle, bool more, SDL_Renderer* ren
             m_startTime = m_currentTime;
         }
     }
-    else
-        if(more==false)
-        {
-            m_vector_index = 0;
-        }
+    else m_vector_index = 0;
 }
 void Animation::Random(int x, int y, int angle, bool more, SDL_Renderer* render)
 {
@@ -340,10 +337,13 @@ void Animation::Random(int x, int y, int angle, bool more, SDL_Renderer* render)
     if(m_currentTime - m_startTime >= m_frame_duration)
         {
             m_vector_index=rand() % int(m_frames_x*m_frames_y);
+            if(m_vector_index==m_prev_vector_index)
+            {
+                m_vector_index=(m_vector_index+1) % int(m_frames_x*m_frames_y);
+            }
+            m_prev_vector_index = m_vector_index;
             m_startTime = m_currentTime;
         }
-
-
 }
 
 
@@ -364,7 +364,6 @@ void Animation::HP_Bar(int x, int y, int angle,  int percentage,bool more, SDL_R
     SDL_Rect Destination2{x, y, g_img_width, m_percentage_height};
     SDL_RenderCopyEx(render,m_sprite,&m_vector_frames[m_position],&Destination2,angle,NULL,m_flip);
 }
-
 
 void Animation::Draw(int x, int y, int angle, bool more, SDL_Renderer* render)
 {

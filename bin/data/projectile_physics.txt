@@ -1,5 +1,5 @@
 // NewKnight Test1
-Speed:9.0
+Speed:12.0
 Number_Projectyles : 100
 Lifetime:1900.0
 Damage:20.0

@@ -51,6 +51,7 @@ public:
 
     vector<SDL_Rect>m_vector_frames;
     int m_vector_index;
+    int m_prev_vector_index;
 
     SDL_Surface* m_file;
     SDL_Texture* m_sprite;

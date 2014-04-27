@@ -1,5 +1,5 @@
 //
-file: media/P1_Damage.png
+file: media/P1_damage.png
 frames x:5
 frames y:2
 frame duration: 60

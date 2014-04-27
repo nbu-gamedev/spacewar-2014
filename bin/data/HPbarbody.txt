@@ -1,5 +1,5 @@
 // version
-file: media/P2_Bar.png
+file: media/P1_bar.png
 frames x: 2
 frames y:1
 frame duration: 0
