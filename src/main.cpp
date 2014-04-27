@@ -1,6 +1,4 @@
 #include "World.h"
-#include "Vector.h"
-#include "Projectyle.h"
 #include "Animation.h"
 int main(int argc, char* args[])
 {
@@ -12,7 +10,6 @@ int main(int argc, char* args[])
 
     world->Init();
     game = true;
-    bool keydown = true;
 
     while(game)
     {
@@ -25,15 +22,8 @@ int main(int argc, char* args[])
                 game = false;
                 break;
             }
-            if(ev.type == SDL_KEYDOWN)
-            {
-                keydown = true;
-            }
         }
-        if(keydown)
-        {
-            world->WInput(ev);
-        }
+        world->WInput();
         world->Collision();
         world->WUpdate();
         world->Render();
@@ -44,7 +34,6 @@ int main(int argc, char* args[])
                SDL_Delay(1000/g_FPS - (time2- time1));
         }
     }
-
     delete world;
     return 0;
 }

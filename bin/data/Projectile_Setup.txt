@@ -1,0 +1,3 @@
+data/projectile_physics.txt
+data/projectile_anime_1.txt
+data/projectile_anime_2.txt

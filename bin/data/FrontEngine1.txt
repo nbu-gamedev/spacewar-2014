@@ -1,0 +1,11 @@
+// version
+file: media/P1_reverse.png
+frames x: 5
+frames y:2
+frame duration: 60
+flip:none
+width:100
+height:100
+animation type: repeat middle
+repeat from: 5
+//end

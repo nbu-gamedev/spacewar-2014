@@ -50,10 +50,10 @@
 		<Unit filename="Passive.h" />
 		<Unit filename="Player.cpp" />
 		<Unit filename="Player.h" />
-		<Unit filename="Projectyle.cpp" />
-		<Unit filename="Projectyle.h" />
-		<Unit filename="Vector.cpp" />
-		<Unit filename="Vector.h" />
+		<Unit filename="Projectile.cpp" />
+		<Unit filename="Projectile.h" />
+		<Unit filename="Vector2D.cpp" />
+		<Unit filename="Vector2D.h" />
 		<Unit filename="World.cpp" />
 		<Unit filename="World.h" />
 		<Unit filename="main.cpp" />

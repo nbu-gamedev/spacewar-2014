@@ -1,0 +1,10 @@
+// version
+file: media/P1_beams.png
+frames x: 3
+frames y:3
+frame duration: 60
+flip:none
+width:100
+height:100
+animation type: random
+//end

@@ -1,7 +1,0 @@
-// version
-file: media/asteroid5.png
-frames x: 5
-frames y:4
-framerate: 50.0
-loop: loop
-//end

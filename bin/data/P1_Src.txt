@@ -1,0 +1,5 @@
+BackEngine:data/BackEngine1.txt
+FrontEngine:data/FrontEngine1.txt
+Beam:data/P1_beams.txt
+Ship:data/ship_1.txt
+DamageShip:data/Damage_ship_1.txt

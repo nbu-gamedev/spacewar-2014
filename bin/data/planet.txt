@@ -1,7 +1,10 @@
 // version
-file: media/planet_sheet.png
+file: media/Planet.png
 frames x: 10
 frames y:5
 frame duration: 40
 animation type: loop
+flip:none
+width:160
+height:160
 //end

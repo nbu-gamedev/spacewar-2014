@@ -5,21 +5,22 @@
 #include"SDL_image.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "Vector.h"
+#include "Vector2D.h"
 
 class Actor
 {
 public:
-    Vector m_cordinates;
-    Vector m_center;
-    Vector m_heading;
+    Vector2D m_coordinates;
+    Vector2D m_center;
+    Vector2D m_heading;
 
     float m_Acceleration;
 
-    Vector m_V;
+    Vector2D m_V;
     int m_width,m_height;
     float m_angle;
-    int m_r;
+    float m_r;
+    int m_HP;
 
     const Uint8* m_keys;
 
@@ -29,8 +30,21 @@ public:
     Actor();
     ~Actor();
 
-    //virtual void Update() = 0;
-   // virtual void Input(SDL_Event &e) = 0;
+    inline double Distance(Actor *B)
+    {
+        return sqrt(((B->m_center.m_x-this->m_center.m_x)*(B->m_center.m_x-this->m_center.m_x))+
+                    ((B->m_center.m_y - this->m_center.m_y)*(B->m_center.m_y - this->m_center.m_y)));
+    }
+
+    inline bool CheckCollision(Actor *B)
+    {
+        if(Distance(B) < (this->m_r + B->m_r))
+            {
+                return true;
+            }
+        return false;
+    }
+
 };
 
 

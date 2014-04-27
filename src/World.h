@@ -1,13 +1,15 @@
 #ifndef WORLD_H_INCLUDED
 #define WORLD_H_INCLUDED
+
 #include "SDL.h"
 #include "Player.h"
 #include <vector>
-#include"Actor.h"
+#include "Actor.h"
 #include "Animation.h"
-#include "Passive.h"
 #include "Define.h"
 #include "string"
+#include "Passive.h"
+
 
 using namespace std;
 
@@ -21,17 +23,12 @@ public:
 
     bool InitScreen();
 
-    void DestroyTexture();
-
-    void WInput(bool key);
-
-    void LoadFile(string source);
+    void WInput();
 
     void Render();
 
     void WUpdate();
 
-    SDL_Texture* m_Texture;
     SDL_Renderer* m_render;
     SDL_Window* m_window;
 
@@ -40,14 +37,15 @@ public:
     double Distance(Actor *A,Actor *B);
     void Collision();
     //
+    vector<Passive*> hp_bar;
+    vector<Passive*> beams;
     void ReadFile(string source);
     vector<string>m_projectile_src;
     int m_WWidth;
     int m_WHeight;
     vector<Player*>m_Players;
-    Animation *Planet;
+    Passive *Planet;
     Animation *Background;
-    vector<Passive*> hp_bar;
 };
 
 #endif // WORLD_H_INCLUDED

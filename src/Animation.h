@@ -29,16 +29,16 @@ public:
     int m_repeat_from_index;
     int m_position;
     string m_animation_type;
-    string m_flip;
-    int repetition_searching_var;
+    string m_flip_type;
+    int m_repetition_searching_var;
     unsigned int m_startTime;
     unsigned int m_currentTime;
 
-    int img_width;
-    int img_height;
-    int rand_index;
-    int percentage_height;
-    int prev_percentage;
+    int g_img_width;
+    int g_img_height;
+    int m_rand_index;
+    int m_percentage_height;
+    int m_prev_percentage;
 
 
 
@@ -49,12 +49,12 @@ public:
 
     bool m_return;
 
-    vector<SDL_Rect>Vector_Frames;
-    int vector_index;
+    vector<SDL_Rect>m_vector_frames;
+    int m_vector_index;
 
-    SDL_Surface* File;
-    SDL_Texture* m_Sprite;
-    SDL_RendererFlip flip;
+    SDL_Surface* m_file;
+    SDL_Texture* m_sprite;
+    SDL_RendererFlip m_flip;
 
 
 
@@ -62,22 +62,21 @@ public:
     ~Animation();
 
     string delSpace(string &tmp_str);
+    int To_int(string tmp);
+    string deCaps(string tmp);
+    string Read_Data(string delimiter, string prefix);
 
     void Init(SDL_Renderer* render, string source);
 
-    string Read_Data(string delimiter, string prefix);
-    int To_int(string tmp);
-    string deCaps(string tmp);
-
-    void LOOP(int x, int y, int angle, bool m_more, SDL_Renderer* render);
-    void Background(int x, int y, int angle,  bool m_more, SDL_Renderer* render);
-    void Linear(int x, int y, int angle, bool m_more, SDL_Renderer* render);
-    void Repeat_middle(int x, int y, int angle, bool m_more, SDL_Renderer* render);
-    void Return_end(int x, int y, int angle,  bool m_more, SDL_Renderer* render);
-    void Random(int x, int y, int angle, bool m_more, SDL_Renderer* render);
-    void HP_Bar_body(int x, int y, int angle, bool m_more, SDL_Renderer* render);
-    void HP_Bar(int x, int y, int angle, int percentage, bool m_more, SDL_Renderer* render);
-    void Draw(int x, int y, int angle, bool m_more, SDL_Renderer* render);
+    void LOOP(int x, int y, int angle, bool more, SDL_Renderer* render);
+    void Background(int x, int y, int angle,  bool more, SDL_Renderer* render);
+    void Linear(int x, int y, int angle, bool more, SDL_Renderer* render);
+    void Repeat_middle(int x, int y, int angle, bool more, SDL_Renderer* render);
+    void Return_end(int x, int y, int angle,  bool more, SDL_Renderer* render);
+    void Random(int x, int y, int angle, bool more, SDL_Renderer* render);
+    void HP_Bar_body(int x, int y, int angle, bool more, SDL_Renderer* render);
+    void HP_Bar(int x, int y, int angle, int percentage, bool more, SDL_Renderer* render);
+    void Draw(int x, int y, int angle, bool more, SDL_Renderer* render);
 
 };
 

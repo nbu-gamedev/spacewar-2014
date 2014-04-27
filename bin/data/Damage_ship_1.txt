@@ -1,0 +1,10 @@
+//
+file: media/P1_Damage.png
+frames x:5
+frames y:2
+frame duration: 60
+animation type: loop
+flip:none
+width:100
+height:100
+//
