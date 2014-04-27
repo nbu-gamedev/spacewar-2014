@@ -174,14 +174,14 @@ void Player::Draw(SDL_Renderer* render)
         m_damage_ship->Draw(m_coordinates.m_x, m_coordinates.m_y,draw_angle,true,render);
     }
 
-    if(m_reduction)
-    {
-        m_front_engine->Draw(m_center.m_x-(m_front_engine->g_img_width/2),m_center.m_y-(m_front_engine->g_img_height/2),draw_angle,true,render);
-    }
-    if(m_acceleration)
-    {
-        m_back_engine->Draw(coordinates2.m_x-(m_back_engine->g_img_width/2), coordinates2.m_y-(m_back_engine->g_img_height/2), draw_angle, true,render);
-    }
+    //if(m_reduction)
+    //{
+        m_front_engine->Draw(m_center.m_x-(m_front_engine->g_img_width/2),m_center.m_y-(m_front_engine->g_img_height/2),draw_angle,m_reduction,render);
+    //}
+    //if(m_acceleration)
+    //{
+        m_back_engine->Draw(coordinates2.m_x-(m_back_engine->g_img_width/2), coordinates2.m_y-(m_back_engine->g_img_height/2), draw_angle, m_acceleration,render);
+    //}
     beam->Draw(m_coordinates.m_x, m_coordinates.m_y,m_angle+90 ,true, render);
     if(m_shooting)
     {
