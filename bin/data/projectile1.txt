@@ -1,7 +1,0 @@
-//
-file: media/orbcyan.png
-frames x:5
-frames y:4
-frame duration : 80
-animation type:loop
-//
