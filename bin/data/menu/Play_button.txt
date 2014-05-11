@@ -1,0 +1,10 @@
+// version
+file: media/menu/Play.png
+frames x: 1
+frames y: 2
+frame duration: 1000
+animation type: button
+flip:none
+width:368
+height:65
+//end

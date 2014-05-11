@@ -1,0 +1,10 @@
+// version
+file: media/menu/Gravity.png
+frames x: 1
+frames y: 4
+frame duration: 1000
+animation type: loop
+flip:none
+width:266
+height:75
+//end

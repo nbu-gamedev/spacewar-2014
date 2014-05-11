@@ -21,7 +21,7 @@ public:
     void Draw_HpBar2(int x, int y,int percentage, SDL_Renderer* render);
     void Init(float x,float y,SDL_Renderer* render, string source);
     void Draw(int x, int y,int angle, bool more, SDL_Renderer* render);
-
+    void DrawButton (int index, SDL_Renderer* render);
     //void Input(SDL_Event &e) = 0;
 };
 

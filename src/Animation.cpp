@@ -148,16 +148,6 @@ void Animation::Init(SDL_Renderer* render, string source)
         }
         m_read_file.close();
     }
-    else
-    {
-        m_source="media/Magenta.png";
-        m_frames_x=1;
-        m_frames_y=1;
-        m_frame_duration=0;
-        m_animation_type="";
-        m_flip_type="none";
-    }
-
     if("horizontal"==m_flip_type)
         {
             m_flip=SDL_FLIP_HORIZONTAL;
@@ -346,7 +336,6 @@ void Animation::Random(int x, int y, int angle, bool more, SDL_Renderer* render)
         }
 }
 
-
 void Animation::HP_Bar_body(int x, int y, int angle, bool more, SDL_Renderer* render)
 {
     SDL_Rect Destination{x, y, g_img_width, g_img_height};
@@ -365,40 +354,40 @@ void Animation::HP_Bar(int x, int y, int angle,  int percentage,bool more, SDL_R
     SDL_RenderCopyEx(render,m_sprite,&m_vector_frames[m_position],&Destination2,angle,NULL,m_flip);
 }
 
+void Animation::Button (int x, int y, int index, SDL_Renderer* render)
+{
+    SDL_Rect Destination{x, y, g_img_width, g_img_height};
+    SDL_RenderCopyEx(render,m_sprite,&m_vector_frames[index],&Destination,0,NULL,m_flip);
+}
+
 void Animation::Draw(int x, int y, int angle, bool more, SDL_Renderer* render)
 {
     if(m_animation_type=="background")
     {
         Background(x, y, angle, more,render);
     }
-    else
-        if(m_animation_type=="loop")
-        {
-            LOOP(x, y, angle, more, render);
-        }
-        else
-            if(m_animation_type=="linear")
-            {
-                Linear(x, y, angle, more, render);
-            }
-            else
-                if(m_animation_type=="repeat middle")
-                {
-                    Repeat_middle(x, y, angle, more, render);
-                }
-                else
-                    if(m_animation_type=="return from end")
-                    {
-                        Return_end(x, y, angle, more, render);
-                    }
-                    else
-                    if(m_animation_type=="random")
-                    {
-                        Random(x, y, angle, more, render);
-                    }
-                    else
-                        if(m_animation_type=="hpbarbody")
-                        {
-                            HP_Bar_body(x, y, angle, more, render);
-                        }
+    else if(m_animation_type=="loop")
+    {
+        LOOP(x, y, angle, more, render);
+    }
+    else if(m_animation_type=="linear")
+    {
+        Linear(x, y, angle, more, render);
+    }
+    else if(m_animation_type=="repeat middle")
+    {
+        Repeat_middle(x, y, angle, more, render);
+    }
+    else if(m_animation_type=="return from end")
+    {
+        Return_end(x, y, angle, more, render);
+    }
+    else if(m_animation_type=="random")
+    {
+        Random(x, y, angle, more, render);
+    }
+    else if(m_animation_type=="hpbarbody")
+    {
+        HP_Bar_body(x, y, angle, more, render);
+    }
 }

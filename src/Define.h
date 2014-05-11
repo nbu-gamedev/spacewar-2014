@@ -11,6 +11,8 @@ const int g_WINDOW_HEIGHT = 720;
 #define TITLE "Space War"
 #define g_FPS 60
 
+#define STATE_MENU 0
+#define STATE_GAME 1
 
 
 

@@ -69,6 +69,7 @@ public:
 
     void Init(SDL_Renderer* render, string source);
 
+    void Button (int x, int y, int index, SDL_Renderer* render);
     void LOOP(int x, int y, int angle, bool more, SDL_Renderer* render);
     void Background(int x, int y, int angle,  bool more, SDL_Renderer* render);
     void Linear(int x, int y, int angle, bool more, SDL_Renderer* render);

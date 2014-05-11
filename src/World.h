@@ -9,7 +9,7 @@
 #include "Define.h"
 #include "string"
 #include "Passive.h"
-
+#include "Menu.h"
 
 using namespace std;
 
@@ -25,7 +25,7 @@ public:
 
     void WInput();
 
-    void Render();
+    void Render(GUIstate* state);
 
     void WUpdate();
 
@@ -35,7 +35,7 @@ public:
     // Test for Collision
     bool CheckCollision(Actor *A,Actor *B);
     double Distance(Actor *A,Actor *B);
-    void Collision();
+    void Collision(GUIstate* state);
     //
     vector<Passive*> hp_bar;
     vector<Passive*> beams;

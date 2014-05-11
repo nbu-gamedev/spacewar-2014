@@ -46,6 +46,8 @@
 		<Unit filename="Animation.cpp" />
 		<Unit filename="Animation.h" />
 		<Unit filename="Define.h" />
+		<Unit filename="Menu.cpp" />
+		<Unit filename="Menu.h" />
 		<Unit filename="Passive.cpp" />
 		<Unit filename="Passive.h" />
 		<Unit filename="Player.cpp" />

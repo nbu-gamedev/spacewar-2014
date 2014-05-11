@@ -47,3 +47,8 @@ void Passive::Draw(int x, int y,int angle, bool more, SDL_Renderer* render)
 {
     m_animation->Draw(x,y, angle, more,render);
 }
+
+void Passive::DrawButton (int index, SDL_Renderer* render)
+{
+    m_animation->Button(m_coordinates.m_x,m_coordinates.m_y, index, render);
+}
