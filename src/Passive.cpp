@@ -28,7 +28,7 @@ void Passive::Draw_HpBar(int x, int y,int percentage, SDL_Renderer* render)
 void Passive::Draw_HpBar2(int x, int y,int percentage, SDL_Renderer* render)
 {
     hp_bar[0]->Draw(x,y, 0, true,render);
-    hp_bar[1]->HP_Bar(x,y, 0,percentage, true,render);
+    hp_bar[1]->HP_Bar(x,y-((hp_bar[1]->g_img_height)*percentage/100)+(hp_bar[1]->g_img_height), 0,percentage, true,render);
 
 }
 void Passive::Init(float x,float y,SDL_Renderer* render, string source)

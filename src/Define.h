@@ -13,6 +13,8 @@ const int g_WINDOW_HEIGHT = 720;
 
 #define STATE_MENU 0
 #define STATE_GAME 1
+#define STATE_RESET 2
+#define STATE_PLAYERWIN 3
 
 
 

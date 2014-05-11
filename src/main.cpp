@@ -1,13 +1,13 @@
 #include "Menu.h"
 #include "World.h"
 #include "Animation.h"
+
 int main(int argc, char* args[])
 {
     SDL_Event ev;
     World* world = new World();
     world->InitScreen();
-    Menu* menu   = new Menu(world->m_render, g_WINDOW_WIDTH, g_WINDOW_HEIGHT);
-    world->Init();
+    Menu* menu = new Menu(world->m_render, g_WINDOW_WIDTH, g_WINDOW_HEIGHT);
     unsigned int time1;
     unsigned int time2;
     bool game;
@@ -51,11 +51,22 @@ int main(int argc, char* args[])
             //IMGUI does everything - determines items, renders, etc...
             game_state = menu->IMGUI(&gui_state);
             break;
+        case STATE_RESET:
+            world->DestroyGame();
+            world->Init();
+            game_state = STATE_GAME;
+            break;
         case STATE_GAME:
             world->WInput();
             world->Collision(&gui_state);
-            world->WUpdate();
+            game_state = world->WUpdate();
             world->Render(&gui_state);
+            break;
+        case STATE_PLAYERWIN:
+            world->Render(&gui_state);
+            SDL_Delay(5000);
+            //world->DestroyGame();
+            game_state = STATE_MENU;
             break;
         default:
             //Quit

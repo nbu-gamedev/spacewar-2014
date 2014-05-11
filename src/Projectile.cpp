@@ -75,6 +75,8 @@ void Projectile::Init(string source,SDL_Renderer* render,Vector2D heading,Vector
     m_coordinates = cordinates;
     m_heading = heading;
     m_center.SetXY(m_coordinates.m_x + (m_width/2), m_coordinates.m_y + (m_height/2));
+    m_sound_shoot.Init("data/Shoot_sound.txt");
+    m_sound_shoot.Play(true);
 }
 
 void Projectile::Update(){

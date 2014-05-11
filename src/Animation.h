@@ -39,6 +39,7 @@ public:
     int m_rand_index;
     int m_percentage_height;
     int m_prev_percentage;
+    int m_angle;
 
 
 
@@ -69,7 +70,6 @@ public:
 
     void Init(SDL_Renderer* render, string source);
 
-    void Button (int x, int y, int index, SDL_Renderer* render);
     void LOOP(int x, int y, int angle, bool more, SDL_Renderer* render);
     void Background(int x, int y, int angle,  bool more, SDL_Renderer* render);
     void Linear(int x, int y, int angle, bool more, SDL_Renderer* render);
@@ -78,6 +78,8 @@ public:
     void Random(int x, int y, int angle, bool more, SDL_Renderer* render);
     void HP_Bar_body(int x, int y, int angle, bool more, SDL_Renderer* render);
     void HP_Bar(int x, int y, int angle, int percentage, bool more, SDL_Renderer* render);
+    void Button (int x, int y, int index, SDL_Renderer* render);
+    void Draw_Image(int x, int y, int angle, bool more, SDL_Renderer* render);
     void Draw(int x, int y, int angle, bool more, SDL_Renderer* render);
 
 };

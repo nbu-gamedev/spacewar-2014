@@ -15,29 +15,36 @@ public:
     bool m_shooting;
     vector<Projectile*> m_projectiles;
     Animation m_animate;
-    Animation* m_back_engine;
+    Animation *m_back_engine;
     Animation *beam;
     Animation *m_front_engine;
     Animation *m_damage_ship;
+    Sound *m_sound_back_engine;
+    Sound *m_sound_front_engine;
     int draw_angle;
+    int  m_lives;
 
     string m_projectile_src;
 
     unsigned int m_startShoot;
     unsigned int m_currentTime;
 
-    bool m_reduction,m_acceleration;
 
+    bool m_reduction,m_acceleration;
+    float m_beginX,m_beginY,m_beginAngle;
+    int m_FullHP;
+    Sound *m_clash;
 
     Player();
     ~Player();
     void Init(float x,float y,float angle,string source,string projectile,SDL_Renderer* render);
     void SetInput(string up,string down,string left,string right,string shoot);
-    void Input();
+    void Input(SDL_Joystick* stick);
     void Update();
     void AddProjectile(SDL_Renderer* render);
     void Draw(SDL_Renderer* render);
     void ReadFile(string line,string source,string &item);
+    void Reset(bool ready);
 
     void WallCollision(int width,int height);
     void ShipCollision(Actor *B);

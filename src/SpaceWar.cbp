@@ -54,6 +54,8 @@
 		<Unit filename="Player.h" />
 		<Unit filename="Projectile.cpp" />
 		<Unit filename="Projectile.h" />
+		<Unit filename="Sound.cpp" />
+		<Unit filename="Sound.h" />
 		<Unit filename="Vector2D.cpp" />
 		<Unit filename="Vector2D.h" />
 		<Unit filename="World.cpp" />

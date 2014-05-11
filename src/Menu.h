@@ -3,6 +3,7 @@
 
 #include "SDL.h"
 #include "Animation.h"
+#include "Sound.h"
 #include "Passive.h"
 #include "Define.h"
 #include <vector>
@@ -39,9 +40,7 @@ public:
     SDL_Renderer* m_render;
 
     Animation *Menu_layer1;
-    Animation *Menu_layer2;
-    Animation *Menu_layer3;
-    Animation *Menu_layer4;
+    Sound *m_click;
     Passive *Play;
     Passive *Quit;
     Passive *Planet;

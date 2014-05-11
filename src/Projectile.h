@@ -2,6 +2,7 @@
 #define PROJECTILE_H_INCLUDED
 #include "Actor.h"
 #include "Animation.h"
+#include "Sound.h"
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -17,6 +18,7 @@ public:
     float m_damage;
     const char* m_keyshoot;
     Animation m_animate;
+    Sound m_sound_shoot;
 
     unsigned int m_startTime;
     unsigned int m_currentTime;
