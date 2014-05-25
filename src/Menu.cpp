@@ -16,8 +16,8 @@ bool GUIstate::Regionhit(Passive* button)
 {
     if(m_x < button->m_coordinates.m_x ||
        m_y < button->m_coordinates.m_y ||
-       m_x > button->m_coordinates.m_x+button->g_img_width ||
-       m_y > button->m_coordinates.m_y+button->g_img_height)
+       m_x > button->m_coordinates.m_x+button->m_passive_img_width ||
+       m_y > button->m_coordinates.m_y+button->m_passive_img_height)
     {
         return false;
     }
@@ -33,18 +33,24 @@ Menu::Menu (SDL_Renderer* render, int width, int height)
 
     Menu_layer1 = new Animation();
     Menu_layer1->Init(m_render, "data/menu/Menu_layer1.txt");
+    Menu_layer2 = new Animation();
+    Menu_layer2->Init(m_render, "data/menu/Menu_layer2.txt");
+    Menu_layer3 = new Animation();
+    Menu_layer3->Init(m_render, "data/menu/Menu_layer3.txt");
+    Menu_layer4 = new Animation();
+    Menu_layer4->Init(m_render, "data/menu/Menu_layer4.txt");
 
     Play = new Passive();
-    Play->Init(797, 301, m_render, "data/menu/Play_button.txt");
+    Play->Init(174, 231, m_render, "data/menu/Play_button.txt");
 
     Quit = new Passive();
-    Quit->Init(689, 500, m_render, "data/menu/Quit_button.txt");
+    Quit->Init(174, 572, m_render, "data/menu/Quit_button.txt");
 
     Planet = new Passive();
-    Planet->Init(273, 316, m_render,"data/menu/Planet_button.txt");
+    Planet->Init(188, 328, m_render,"data/menu/Planet_button.txt");
 
     Gravity = new Passive();
-    Gravity->Init(273, 405, m_render, "data/menu/Gravity_button.txt");
+    Gravity->Init(188, 437, m_render, "data/menu/Gravity_button.txt");
 
     m_click=new Sound();
     m_click->Init("data/Click_sound.txt");
@@ -53,6 +59,9 @@ Menu::Menu (SDL_Renderer* render, int width, int height)
 Menu::~Menu()
 {
     delete Menu_layer1;
+    delete Menu_layer2;
+    delete Menu_layer3;
+    delete Menu_layer4;
     delete Play;
     delete Quit;
     delete Planet;
@@ -67,6 +76,9 @@ int Menu::IMGUI(GUIstate* state)
     SDL_RenderClear(m_render);
 
     Menu_layer1->Draw(0,0,0,true,m_render);
+    Menu_layer2->Draw(0,0,0,true,m_render);
+    Menu_layer3->Draw(0,0,0,true,m_render);
+    Menu_layer4->Draw(0,0,0,true,m_render);
 
     Play->DrawButton(0, m_render);      //ID 1
     Quit->DrawButton(0, m_render);      //ID 2

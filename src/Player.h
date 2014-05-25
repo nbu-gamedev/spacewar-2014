@@ -12,6 +12,7 @@ using namespace std;
 class Player:public Actor
 {
 public:
+    bool m_alive;
     bool m_shooting;
     vector<Projectile*> m_projectiles;
     Animation m_animate;
@@ -19,6 +20,7 @@ public:
     Animation *beam;
     Animation *m_front_engine;
     Animation *m_damage_ship;
+    Animation *m_ship_destroy;
     Sound *m_sound_back_engine;
     Sound *m_sound_front_engine;
     int draw_angle;
@@ -30,19 +32,21 @@ public:
     unsigned int m_currentTime;
 
 
-    bool m_reduction,m_acceleration;
+    bool m_reduction,m_acceleration, m_once_dead;
     float m_beginX,m_beginY,m_beginAngle;
+    float m_deadX,m_deadY,m_deadAngle;
     int m_FullHP;
     Sound *m_clash;
 
     Player();
     ~Player();
-    void Init(float x,float y,float angle,string source,string projectile,SDL_Renderer* render);
+    void Init(float x,float y,float angle,string source,string projectile, string f_destroy_ship,SDL_Renderer* render);
     void SetInput(string up,string down,string left,string right,string shoot);
     void Input(SDL_Joystick* stick);
     void Update();
     void AddProjectile(SDL_Renderer* render);
     void Draw(SDL_Renderer* render);
+    bool Draw_Destroy_Ship(SDL_Renderer* render);
     void ReadFile(string line,string source,string &item);
     void Reset(bool ready);
 
@@ -52,6 +56,7 @@ public:
     void PlanetCollision();
     void CalcolateCollision(Vector2D other);
     void CollisionProjectile(Actor *Player);
+    void CalculateDeath();
 
 };
 

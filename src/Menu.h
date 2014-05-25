@@ -40,6 +40,9 @@ public:
     SDL_Renderer* m_render;
 
     Animation *Menu_layer1;
+    Animation *Menu_layer2;
+    Animation *Menu_layer3;
+    Animation *Menu_layer4;
     Sound *m_click;
     Passive *Play;
     Passive *Quit;

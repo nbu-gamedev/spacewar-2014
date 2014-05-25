@@ -43,6 +43,8 @@ public:
     SDL_Joystick *m_Stick2;
     vector<Passive*> hp_bar;
     vector<Passive*> beams;
+    Passive *hp_bar1;
+    Passive *hp_bar2;
     void ReadFile(string source);
     vector<string>m_projectile_src;
     int m_WWidth;
@@ -51,6 +53,9 @@ public:
     Passive *Planet;
     Passive *m_cyan_numbers;
     Passive *m_magenta_numbers;
+    vector<Passive *>m_meteorite;
+    vector<Passive *>m_meteorite_two;
+    vector<Passive *>m_meteorite_three;
     Animation *Background_layer_one;
     Animation *Background_layer_two;
     Animation *Background_layer_three;

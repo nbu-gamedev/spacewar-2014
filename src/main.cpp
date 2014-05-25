@@ -36,7 +36,7 @@ int main(int argc, char* args[])
             }
             if(ev.key.keysym.sym == SDLK_ESCAPE)
             {
-                game_state = STATE_MENU;
+                game_state = STATE_PLAYERWIN;
             }
             if(ev.type == SDL_QUIT)
             {
@@ -64,8 +64,7 @@ int main(int argc, char* args[])
             break;
         case STATE_PLAYERWIN:
             world->Render(&gui_state);
-            SDL_Delay(5000);
-            //world->DestroyGame();
+            SDL_Delay(1000);
             game_state = STATE_MENU;
             break;
         default:

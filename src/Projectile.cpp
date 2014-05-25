@@ -68,8 +68,8 @@ void Projectile::Init(string source,SDL_Renderer* render,Vector2D heading,Vector
 
     ReadFile("data/projectile_physics.txt");
 
-    m_width = m_animate.g_img_width;
-    m_height = m_animate.g_img_height;
+    m_width = m_animate.m_img_width;
+    m_height = m_animate.m_img_height;
     m_r = m_width/2;
 
     m_coordinates = cordinates;

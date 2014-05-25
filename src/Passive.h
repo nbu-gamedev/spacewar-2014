@@ -4,6 +4,7 @@
 #include "SDL.h"
 #include <vector>
 #include "Animation.h"
+#include "Define.h"
 #include "string"
 class Passive:public Actor
 {
@@ -11,8 +12,16 @@ public:
     Animation *m_animation;
     vector<Animation*>hp_bar;
 
-    int g_img_width;
-    int g_img_height;
+    int m_passive_img_width;
+    int m_passive_img_height;
+    int m_start_x;
+    int m_start_y;
+    int m_prev_x;
+    int m_prev_y;
+    int m_speed_x;
+    int m_speed_y;
+    bool m_live;
+    int prev;
 
     Passive();
     ~Passive();
@@ -22,6 +31,9 @@ public:
     void Init(float x,float y,SDL_Renderer* render, string source);
     void Draw(int x, int y,int angle, bool more, SDL_Renderer* render);
     void DrawButton (int index, SDL_Renderer* render);
+    void DrawMeteorite(bool more, SDL_Renderer* render);
+    void Update();
+    void Random();
     //void Input(SDL_Event &e) = 0;
 };
 

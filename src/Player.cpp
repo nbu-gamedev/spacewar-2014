@@ -1,7 +1,7 @@
 #include "Player.h"
 
 Player::Player():Actor(){
-
+    m_alive = true;
     m_shooting = 0;
     draw_angle = 0;
     m_startShoot = 0;
@@ -10,6 +10,10 @@ Player::Player():Actor(){
     m_beginX = 0.0f;
     m_beginY = 0.0f;
     m_beginAngle = 0.0f;
+    m_deadAngle = 0.0f;
+    m_deadX = 0.0f;
+    m_deadY = 0.0f;
+    m_once_dead = false;
     m_lives = 0;
     m_FullHP = 0;
     m_acceleration = false;
@@ -19,6 +23,9 @@ Player::Player():Actor(){
     m_back_engine = NULL;
     m_front_engine = NULL;
     m_damage_ship = NULL;
+    m_sound_back_engine = NULL;
+    m_sound_front_engine = NULL;
+    m_ship_destroy=NULL;
 
     printf(" Player\n");
 
@@ -34,10 +41,12 @@ Player::~Player()
     delete m_sound_back_engine;
     delete m_sound_front_engine;
     delete m_clash;
+    delete m_ship_destroy;
 
     for(unsigned int i = 0;i<m_projectiles.size();i++){
         if(!m_projectiles[i]->m_live){
             delete m_projectiles[i];
+            m_projectiles[i] = NULL;
             m_projectiles.erase(m_projectiles.begin()+i);
         }
     }
@@ -56,13 +65,15 @@ void Player::ReadFile(string line,string source,string &item)
         }
  }
 
-void Player::Init(float x,float y,float angle,string source,string projectile,SDL_Renderer* render)
+void Player::Init(float x,float y,float angle,string source,string projectile, string f_destroy_ship,SDL_Renderer* render)
 {
+    m_alive = true;
+    m_once_dead = false;
     m_coordinates.SetXY(x,y);
     m_Acceleration = 0.25;
-    m_HP = 500;
-    m_FullHP = 500;
-    m_lives = 2;
+    m_HP = 200;
+    m_FullHP = 200;
+    m_lives = 3;
 
     m_beginX = x;
     m_beginY = y;
@@ -70,6 +81,7 @@ void Player::Init(float x,float y,float angle,string source,string projectile,SD
 
     m_V.SetXY(0,0);
     m_angle = angle;
+    draw_angle = angle+90;
     m_shooting = false;
 
     string back_engine,source_beam,front_engine,ship,damageship;
@@ -102,6 +114,8 @@ void Player::Init(float x,float y,float angle,string source,string projectile,SD
     m_front_engine->Init(render, front_engine);
     m_damage_ship=new Animation;
     m_damage_ship->Init(render, damageship);
+    m_ship_destroy=new Animation;
+    m_ship_destroy->Init(render,  f_destroy_ship);
     m_sound_back_engine= new Sound();
     m_sound_back_engine->Init("data/Powerup.txt");
     m_sound_front_engine= new Sound();
@@ -109,8 +123,8 @@ void Player::Init(float x,float y,float angle,string source,string projectile,SD
     m_clash=new Sound();
     m_clash->Init("data/Hit_sound.txt");
 
-    m_width = m_animate.g_img_width;
-    m_height = m_animate.g_img_height;
+    m_width = m_animate.m_img_width;
+    m_height = m_animate.m_img_height;
     m_r = m_width/2;
 
     m_center.SetXY(m_coordinates.m_x + (m_width/2), m_coordinates.m_y + (m_height/2));
@@ -125,14 +139,8 @@ void Player::Reset(bool ready)
     m_angle = m_beginAngle;
     m_center.SetXY(m_coordinates.m_x + (m_width/2), m_coordinates.m_y + (m_height/2));
     draw_angle = 90 + m_angle;
-    for(unsigned int i = 0;i<m_projectiles.size();i++){
-        if(!m_projectiles[i]->m_live){
-            delete m_projectiles[i];
-            m_projectiles.erase(m_projectiles.begin()+i);
-        }
-    }
-    m_projectiles.clear();
-
+    m_alive = true;
+    m_once_dead = false;
 }
 
 void Player::SetInput(string up,string down,string left,string right,string shoot)
@@ -152,10 +160,9 @@ void Player::Input(SDL_Joystick* stick)
     m_reduction = false;
 
     // Joystick Input
-    Uint8 acc = SDL_JoystickGetButton(stick,2);
-    Uint8 red = SDL_JoystickGetButton(stick,3);
     Uint8 fire = SDL_JoystickGetButton(stick,5);
     Sint16 x_axis = SDL_JoystickGetAxis(stick,0);
+    Sint16 y_axis = SDL_JoystickGetAxis(stick,3);
 
     if(x_axis<=-7000)
     {
@@ -169,23 +176,24 @@ void Player::Input(SDL_Joystick* stick)
         draw_angle += 3.0f;
     }
 
-    if(acc == 1)
+    if(y_axis <= -4000)
     {
         m_acceleration = true;
         m_reduction = false;
+        printf("%f\n",((float(y_axis)/80000)+0.0347142)*(-1));
         if(m_V.m_x < 8.0f)
             {
-                m_V = m_V + m_Acceleration;
+                m_V = m_V + ((float(y_axis)/80000)-0.0347142)*(-1);
             }
     }
 
-    if(red == 1)
+    if(y_axis >= 7000)
     {
         m_acceleration = false;
         m_reduction = true;
         if(m_V.m_x > -8.0f)
             {
-                m_V = m_V- m_Acceleration;
+                m_V = m_V- ((float(y_axis)/80000)-0.0347142);
             }
     }
 
@@ -268,19 +276,19 @@ void Player::AddProjectile(SDL_Renderer* render)
 
 void Player::Draw(SDL_Renderer* render)
 {
-    if(m_HP>250)
+    if(m_HP>m_FullHP/2)
     {
         m_animate.Draw(m_coordinates.m_x, m_coordinates.m_y,draw_angle,true,render);
     }
-    if(m_HP<=250)
+    if(m_HP<=m_FullHP/2)
     {
         m_damage_ship->Draw(m_coordinates.m_x, m_coordinates.m_y,draw_angle,true,render);
     }
     Vector2D coordinates2 = m_center - m_heading*m_r;
-    m_front_engine->Draw(m_center.m_x-(m_front_engine->g_img_width/2),m_center.m_y-(m_front_engine->g_img_height/2),draw_angle,m_reduction,render);
-    m_sound_front_engine->Play(m_reduction);
-    m_back_engine->Draw(coordinates2.m_x-(m_back_engine->g_img_width/2), coordinates2.m_y-(m_back_engine->g_img_height/2), draw_angle, m_acceleration,render);
-    m_sound_back_engine->Play(m_acceleration);
+    m_front_engine->Draw(m_center.m_x-(m_front_engine->m_img_width/2),m_center.m_y-(m_front_engine->m_img_height/2),draw_angle,m_reduction,render);
+    //m_sound_front_engine->Play(m_reduction);
+    m_back_engine->Draw(coordinates2.m_x-(m_back_engine->m_img_width/2), coordinates2.m_y-(m_back_engine->m_img_height/2), draw_angle, m_acceleration,render);
+    //m_sound_back_engine->Play(m_acceleration);
     beam->Draw(m_coordinates.m_x, m_coordinates.m_y,m_angle+90 ,true, render);
     if(m_shooting)
     {
@@ -291,6 +299,11 @@ void Player::Draw(SDL_Renderer* render)
     for(unsigned int i = 0;i<m_projectiles.size();i++){
         m_projectiles[i]->Draw(render);
     }
+}
+
+bool Player::Draw_Destroy_Ship(SDL_Renderer* render)
+{
+    return m_ship_destroy->Destroy_ship(m_deadX, m_deadY, m_deadAngle, m_alive, render);
 }
 
 void Player::CollisionProjectile(Actor *Player)
@@ -356,5 +369,12 @@ void Player::CalcolateCollision(Vector2D other)
     draw_angle = 90 + m_angle;
 }
 
+void Player::CalculateDeath ()
+{
+    m_deadX = m_center.m_x - m_ship_destroy->m_img_width/2;
+    m_deadY = m_center.m_y - m_ship_destroy->m_img_height/2;
+    m_deadAngle = draw_angle;
+    m_once_dead = true;
+}
 
 

@@ -34,12 +34,12 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
-			<Add directory="D:/SDL2-2.0.1/i686-w64-mingw32/include/SDL2" />
+			<Add directory="../../SDL2/include/SDL2" />
 		</Compiler>
 		<Linker>
 			<Add option="-lmingw32 -lSDL2main -lSDL2" />
-			<Add option="-lSDL2_image -lSDL2_ttf" />
-			<Add directory="D:/SDL2-2.0.1/i686-w64-mingw32/lib" />
+			<Add option="-lSDL2_image -lSDL2_ttf -lSDL2_mixer" />
+			<Add directory="../../SDL2/lib" />
 		</Linker>
 		<Unit filename="Actor.cpp" />
 		<Unit filename="Actor.h" />

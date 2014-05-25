@@ -34,8 +34,8 @@ public:
     unsigned int m_startTime;
     unsigned int m_currentTime;
 
-    int g_img_width;
-    int g_img_height;
+    int m_img_width;
+    int m_img_height;
     int m_rand_index;
     int m_percentage_height;
     int m_prev_percentage;
@@ -49,6 +49,7 @@ public:
 
 
     bool m_return;
+    bool m_more;
 
     vector<SDL_Rect>m_vector_frames;
     int m_vector_index;
@@ -80,6 +81,7 @@ public:
     void HP_Bar(int x, int y, int angle, int percentage, bool more, SDL_Renderer* render);
     void Button (int x, int y, int index, SDL_Renderer* render);
     void Draw_Image(int x, int y, int angle, bool more, SDL_Renderer* render);
+    bool Destroy_ship(int x, int y, int angle, bool more, SDL_Renderer* render);
     void Draw(int x, int y, int angle, bool more, SDL_Renderer* render);
 
 };

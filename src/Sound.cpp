@@ -211,8 +211,8 @@ void Sound::Init(string source)
             printf( "ERROR reading file \n");
         }
 
-    m_backup_music = Mix_LoadMUS( "media/The Legion - allegro + reprise.wav" );
-    m_backup_sound=Mix_LoadWAV("media/backup_sound");
+   // m_backup_music = Mix_LoadMUS( "media/The Legion - allegro + reprise.wav" );
+    //m_backup_sound=Mix_LoadWAV("media/backup_sound");
     m_vector_size=3;
     m_read_file.close();
     srand (time(NULL));
