@@ -1,0 +1,7 @@
+//
+type:sound effect
+sound for animation:ship
+file1:media/button-3.wav
+file2:media/button-3.wav
+file3:media/button-3.wav
+//

@@ -1,0 +1,7 @@
+//
+type:music
+file1:media/The Legion - allegro + reprise.wav
+file2:media/The Legion - maintheme.wav
+file3:media/Warrior _ guitar.wav
+repeat: all
+//

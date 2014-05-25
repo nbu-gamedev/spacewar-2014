@@ -1,0 +1,10 @@
+//
+file: media/P1_destroy.png
+frames x:6
+frames y:5
+frame duration: 60
+animation type: destroy ship
+flip:none
+width:200
+height:200
+//

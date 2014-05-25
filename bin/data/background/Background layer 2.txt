@@ -1,0 +1,10 @@
+// version
+file: media/background/Background layer 2.png
+frames x: 1
+frames y:1
+frame duration: 1
+animation type: loop
+flip:none
+width:1280
+height:720
+//end

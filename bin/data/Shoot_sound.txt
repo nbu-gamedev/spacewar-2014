@@ -1,0 +1,7 @@
+//
+type:sound effect
+sound for animation:ship
+file1:media/shoot.wav
+file2:media/shoot effect.wav
+file3:media/Laser_Shoot4.wav
+//

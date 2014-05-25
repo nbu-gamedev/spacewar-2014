@@ -1,0 +1,10 @@
+// version
+file: media/background/P1_wins.png
+frames x: 1
+frames y:1
+frame duration: 1
+animation type:loop
+flip:none
+width:837
+height:402
+//end

@@ -1,0 +1,10 @@
+// version
+file: media/background/Gravity.png
+frames x: 1
+frames y:1
+frame duration: 1
+animation type: draw image
+flip:none
+width:430
+height:430
+//end

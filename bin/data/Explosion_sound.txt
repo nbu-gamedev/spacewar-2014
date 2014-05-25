@@ -1,0 +1,7 @@
+//
+type:sound effect
+sound for animation:ship
+file1:media/Atomic_Bomb-Sound_Explorer-897730679.wav
+file2:media/Bomb_Exploding-Sound_Explorer-68256487.wav
+file3:media/Bomb-SoundBible.com-891110113.wav
+//

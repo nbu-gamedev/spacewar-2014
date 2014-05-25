@@ -1,0 +1,7 @@
+//
+type:engine sound
+sound for animation:ship
+file1:media/Powerup6.wav
+file2:media/Powerup6.wav
+file3:media/Powerup6.wav
+//

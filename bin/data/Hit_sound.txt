@@ -1,0 +1,7 @@
+//
+type:sound effect
+sound for animation:ship
+file1:media/Hit_Hurt1.wav
+file2:media/Hit_Hurt2.wav
+file3:media/Hit_Hurt3.wav
+//

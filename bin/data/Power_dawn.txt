@@ -1,0 +1,7 @@
+//
+type:engine sound
+sound for animation:ship
+file1:media/beep-06.wav
+file2:media/beep-07.wav
+file3:media/beep-08b.wav
+//

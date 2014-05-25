@@ -4,7 +4,7 @@ frames x: 2
 frames y:1
 frame duration: 0
 animation type: hpbarbody 
-flip:none
+flip:vertical
 width:36
 height:351
 position: 0

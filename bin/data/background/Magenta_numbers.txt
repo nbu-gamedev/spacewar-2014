@@ -1,0 +1,10 @@
+// version
+file: media/background/Magenta_numbers.png
+frames x: 1
+frames y:6
+frame duration: 0
+animation type: draw image
+flip: none
+width:72
+height:52.8
+//end

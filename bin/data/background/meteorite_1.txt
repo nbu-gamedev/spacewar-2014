@@ -1,10 +1,10 @@
 // version
-file: media/Planet.png
+file: media/background/meteorite_light_1.png
 frames x: 10
 frames y:10
 frame duration: 30
 animation type: loop
 flip:none
-width:160
-height:160
+width:50
+height:50
 //end

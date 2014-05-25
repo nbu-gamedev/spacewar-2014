@@ -1,0 +1,10 @@
+// version
+file: media/background/meteorite_light_2.png
+frames x: 10
+frames y:10
+frame duration: 30
+animation type: loop
+flip:none
+width:60
+height:60
+//end

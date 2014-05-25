@@ -1,7 +1,7 @@
 // version
-file: media/P1_beams.png
-frames x: 3
-frames y:3
+file: media/P1_no_symmetry.png
+frames x: 5
+frames y:4
 frame duration: 60
 flip:none
 width:100
